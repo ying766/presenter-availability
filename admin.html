@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Availability Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F6F2;--surface:#FFFFFF;--border:#E5E1DB;--text:#1C1A18;
+  --muted:#9A9590;--accent:#1D3557;--accent-light:#EBF0F7;--accent-mid:#2E5A8E;
+  --green:#1D4B2F;--green-light:#EBF3EE;--green-mid:#2E7A4F;
+  --warn:#8B3A3A;--warn-light:#FDF0F0;--radius:10px;
+}
+body{font-family:'Lato',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* Login */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh}
+.login-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:360px}
+.login-card h2{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;margin-bottom:.25rem}
+.login-card p{color:var(--muted);font-size:.82rem;margin-bottom:1.75rem;font-weight:300}
+label{display:block;font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
+input[type=password],input[type=text],select,textarea{width:100%;padding:.65rem .9rem;border:1px solid var(--border);border-radius:var(--radius);font-family:'Lato',sans-serif;font-size:.9rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .15s;appearance:none}
+input:focus,select:focus,textarea:focus{border-color:var(--accent-mid)}
+.field{margin-bottom:1.1rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;padding:.65rem 1.3rem;border-radius:var(--radius);font-family:'Lato',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;border:none;transition:all .15s;letter-spacing:.02em}
+.btn-primary{background:var(--accent);color:#fff;width:100%}
+.btn-primary:hover{background:#264678}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{background:#275c3a}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--muted)}
+.btn-ghost:hover{border-color:var(--accent-mid);color:var(--accent)}
+.btn-danger{background:none;border:1px solid var(--border);color:var(--warn);font-size:.78rem;padding:.32rem .65rem}
+.btn-danger:hover{background:var(--warn-light);border-color:var(--warn)}
+.btn-sm{padding:.4rem .85rem;font-size:.78rem}
+.err{color:var(--warn);font-size:.78rem;margin-top:-.6rem;margin-bottom:.85rem}
+
+/* App */
+#app{display:none}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:.85rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.topbar h1{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;flex:1}
+.tab-nav{display:flex;gap:.2rem}
+.tab-btn{padding:.4rem .95rem;border-radius:6px;border:none;background:none;font-family:'Lato',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;color:var(--muted);transition:all .15s;letter-spacing:.02em}
+.tab-btn.active{background:var(--accent-light);color:var(--accent)}
+.tab-btn:hover:not(.active){background:var(--bg)}
+
+.content{padding:1.5rem 2rem;max-width:1100px;margin:0 auto}
+
+/* Brand filter */
+.filter-bar{display:flex;align-items:center;gap:.5rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.filter-label{font-size:.75rem;color:var(--muted);font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.chip{padding:.32rem .85rem;border-radius:20px;border:1px solid var(--border);background:var(--surface);font-family:'Lato',sans-serif;font-size:.78rem;cursor:pointer;transition:all .15s;color:var(--text);font-weight:400}
+.chip:hover{border-color:var(--accent-mid)}
+.chip.active{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+
+/* Calendar */
+.month-nav{display:flex;align-items:center;gap:.75rem;margin-bottom:.85rem}
+.month-lbl{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;flex:1}
+.nav-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--text);transition:all .15s}
+.nav-btn:hover{border-color:var(--accent-mid);color:var(--accent)}
+.nav-btn:disabled{opacity:.3;cursor:default}
+.cal-grid{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.cal-wdays{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--border)}
+.cal-wday{padding:.5rem;text-align:center;font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr)}
+.cal-day{min-height:90px;padding:.4rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+.cal-day:nth-child(7n){border-right:none}
+.cal-day.empty{cursor:default;background:var(--bg);opacity:.4}
+.cal-day:not(.empty):hover{background:var(--accent-light)}
+.cal-day.today .day-num{background:var(--accent-mid);color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem}
+.day-num{font-size:.75rem;font-weight:700;line-height:1;margin-bottom:3px}
+.ppills{display:flex;flex-wrap:wrap;gap:2px;margin-top:2px}
+.ppill{font-size:.6rem;padding:1px 5px;border-radius:3px;font-weight:700;max-width:62px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}
+
+/* Color palette for presenters */
+.pc0{background:#EBF0F7;color:#1D3557}.pc1{background:#EBF3EE;color:#1D4B2F}
+.pc2{background:#FFF3E0;color:#7B4200}.pc3{background:#FCE4EC;color:#880E4F}
+.pc4{background:#F3E5F5;color:#4A148C}.pc5{background:#E0F2F1;color:#00695C}
+.pc6{background:#FBE9E7;color:#BF360C}.pc7{background:#E8EAF6;color:#1A237E}
+.pc8{background:#F9FBE7;color:#33691E}.pc9{background:#FFF8E1;color:#F57F17}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:16px;padding:2rem;width:500px;max-width:95vw;max-height:88vh;overflow-y:auto;animation:pop .2s ease}
+@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+.modal-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400}
+.modal-close{background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--muted);padding:0 .2rem}
+.modal-close:hover{color:var(--text)}
+
+/* Day detail */
+.p-entry{padding:.85rem 0;border-bottom:1px solid var(--border)}
+.p-entry:last-child{border-bottom:none}
+.pe-top{display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem}
+.pe-name{font-weight:700;font-size:.9rem}
+.pe-brand{font-size:.73rem;color:var(--muted);font-weight:300}
+.slot-tags{display:flex;flex-wrap:wrap;gap:.3rem}
+.stag{font-size:.73rem;padding:.2rem .55rem;border-radius:4px;background:var(--accent-light);color:var(--accent);font-weight:700}
+.pe-note{font-size:.78rem;color:var(--muted);margin-top:.3rem;font-style:italic}
+
+/* Presenter table */
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;flex-wrap:wrap;gap:.5rem}
+.sec-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:400}
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:2rem}
+.ptable{width:100%;border-collapse:collapse}
+.ptable th{text-align:left;font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:.5rem .85rem;border-bottom:1px solid var(--border)}
+.ptable td{padding:.65rem .85rem;border-bottom:1px solid var(--border);font-size:.86rem;vertical-align:middle}
+.ptable tr:last-child td{border-bottom:none}
+.ptable tr:hover td{background:var(--bg)}
+.btag{display:inline-block;font-size:.7rem;padding:.15rem .5rem;border-radius:3px;background:var(--accent-light);color:var(--accent);margin:1px;font-weight:700}
+.no-pin{color:var(--warn);font-size:.75rem;font-weight:700}
+code{font-size:.82rem;background:var(--bg);padding:2px 6px;border-radius:4px;font-family:monospace}
+
+/* Add forms */
+.add-form{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem}
+.add-form h3{font-size:.95rem;font-weight:700;margin-bottom:1rem;letter-spacing:.01em}
+.form-grid{display:grid;grid-template-columns:2fr 1fr 3fr auto;gap:.65rem;align-items:end}
+.form-grid-brands{display:grid;grid-template-columns:1fr auto;gap:.65rem;align-items:end}
+.fg{display:flex;flex-direction:column;gap:.35rem}
+.fg label{margin-bottom:0}
+.fg input,fg select{margin-bottom:0}
+
+/* Brands section */
+.brand-list{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.brand-item{display:flex;align-items:center;gap:.35rem;padding:.3rem .7rem .3rem .9rem;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-size:.82rem}
+.brand-del{background:none;border:none;cursor:pointer;color:var(--muted);font-size:.9rem;padding:0 .1rem;line-height:1;transition:color .15s}
+.brand-del:hover{color:var(--warn)}
+
+/* Edit modal */
+.edit-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.85rem;flex-wrap:wrap}
+.edit-row label{min-width:60px;flex-shrink:0}
+.edit-row input{flex:1;min-width:0}
+
+.empty-state{text-align:center;padding:2rem;color:var(--muted);font-size:.86rem}
+
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:#fff;padding:.65rem 1.5rem;border-radius:30px;font-size:.85rem;font-weight:700;transition:transform .3s ease;z-index:200;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+.spinner{width:13px;height:13px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:640px){
+  .topbar{padding:.7rem 1rem}.content{padding:1rem}
+  .form-grid{grid-template-columns:1fr}.cal-day{min-height:60px}
+}
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-card">
+    <h2>Admin Dashboard</h2>
+    <p>Enter your admin password to access the availability dashboard.</p>
+    <div class="field"><label>Password</label><input type="password" id="admin-pw" placeholder="••••••••"></div>
+    <div id="login-err" class="err" style="display:none">Incorrect password.</div>
+    <button class="btn btn-primary" onclick="adminLogin()">Sign In →</button>
+  </div>
+</div>
+
+<div id="app">
+  <div class="topbar">
+    <h1>Availability Dashboard</h1>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('calendar')">Calendar</button>
+      <button class="tab-btn" onclick="switchTab('presenters')">Presenters</button>
+      <button class="tab-btn" onclick="switchTab('brands')">Brands</button>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="adminLogout()">Sign out</button>
+  </div>
+
+  <!-- Calendar Tab -->
+  <div id="tab-calendar" class="content">
+    <div class="filter-bar">
+      <span class="filter-label">Brand:</span>
+      <div id="brand-filters" style="display:flex;flex-wrap:wrap;gap:.4rem"></div>
+    </div>
+    <div class="month-nav">
+      <button class="nav-btn" id="adm-prev" onclick="adminMonth(-1)">◀</button>
+      <div class="month-lbl" id="adm-month-lbl"></div>
+      <button class="nav-btn" onclick="adminMonth(1)">▶</button>
+    </div>
+    <div class="cal-grid">
+      <div class="cal-wdays">
+        <div class="cal-wday">Mon</div><div class="cal-wday">Tue</div><div class="cal-wday">Wed</div>
+        <div class="cal-wday">Thu</div><div class="cal-wday">Fri</div><div class="cal-wday">Sat</div><div class="cal-wday">Sun</div>
+      </div>
+      <div class="cal-days" id="adm-cal-days"></div>
+    </div>
+  </div>
+
+  <!-- Presenters Tab -->
+  <div id="tab-presenters" class="content" style="display:none">
+    <div class="add-form">
+      <h3>Add New Presenter</h3>
+      <div class="form-grid">
+        <div class="fg"><label>Full Name</label><input type="text" id="np-name" placeholder="Jane Smith"></div>
+        <div class="fg"><label>PIN (4 digits)</label><input type="text" id="np-pin" maxlength="4" placeholder="1234" inputmode="numeric"></div>
+        <div class="fg"><label>Brands (comma-separated)</label><input type="text" id="np-brands" placeholder="Brand A, Brand B"></div>
+        <button class="btn btn-green" onclick="addPresenter()" style="height:38px;align-self:end">Add</button>
+      </div>
+    </div>
+
+    <div class="section-hdr">
+      <div class="sec-title">All Presenters</div>
+      <span id="p-count" style="font-size:.8rem;color:var(--muted)"></span>
+    </div>
+    <div class="table-wrap">
+      <table class="ptable">
+        <thead><tr>
+          <th>Name</th><th>PIN</th><th>Brands</th><th>Actions</th>
+        </tr></thead>
+        <tbody id="p-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Brands Tab -->
+  <div id="tab-brands" class="content" style="display:none">
+    <div class="add-form">
+      <h3>Add New Brand</h3>
+      <div class="form-grid-brands">
+        <div class="fg"><label>Brand Name</label><input type="text" id="nb-name" placeholder="e.g. Trip"></div>
+        <button class="btn btn-green" onclick="addBrand()" style="height:38px;align-self:end">Add Brand</button>
+      </div>
+    </div>
+    <div class="section-hdr">
+      <div class="sec-title">All Brands</div>
+      <span id="b-count" style="font-size:.8rem;color:var(--muted)"></span>
+    </div>
+    <div class="brand-list" id="brand-list"></div>
+    <p style="font-size:.8rem;color:var(--muted);margin-top:.5rem">To assign brands to a presenter, go to the <strong>Presenters</strong> tab and click Edit.</p>
+  </div>
+</div>
+
+<!-- Day Detail Modal -->
+<div class="modal-overlay" id="day-modal" onclick="closeModal(event,'day-modal')">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title" id="modal-date-ttl"></div>
+      <button class="modal-close" onclick="closeModalById('day-modal')">✕</button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- Edit Presenter Modal -->
+<div class="modal-overlay" id="edit-modal" onclick="closeModal(event,'edit-modal')">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title">Edit Presenter</div>
+      <button class="modal-close" onclick="closeModalById('edit-modal')">✕</button>
+    </div>
+    <div>
+      <input type="hidden" id="edit-id">
+      <div class="field"><label>Full Name</label><input type="text" id="edit-name"></div>
+      <div class="field"><label>PIN (last 4 digits of phone)</label><input type="text" id="edit-pin" maxlength="4" inputmode="numeric"></div>
+      <div class="field">
+        <label>Brands</label>
+        <div id="edit-brand-checkboxes" style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.75rem;padding:.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg)"></div>
+      </div>
+      <div style="display:flex;gap:.5rem;justify-content:flex-end">
+        <button class="btn btn-ghost" onclick="closeModalById('edit-modal')">Cancel</button>
+        <button class="btn btn-green" onclick="saveEdit()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script>
+const SLOT_LABELS={allday:'All day',morning:'Morning (9–12)',afternoon:'Afternoon (12–6)',evening:'Evening (7–10)',other:'Other'};
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const WDAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const PCOLORS=['pc0','pc1','pc2','pc3','pc4','pc5','pc6','pc7','pc8','pc9'];
+
+const ADMIN_PASSWORD = window.ADMIN_PASSWORD || 'admin123';
+const API_URL = window.APPS_SCRIPT_URL || '';
+
+let allPresenters=[], allAvailability=[], allBrands=[];
+let pColorMap={};
+let brandFilter='all';
+let admY=2026, admM=4;
+
+// ── API (same localApi pattern) ───────────────────────────
+async function api(params) {
+  if (!API_URL) return localApi(params);
+  const url = API_URL + '?' + new URLSearchParams(params);
+  const r = await fetch(url);
+  return r.json();
+}
+
+function localApi(params) {
+  const store=key=>{const r=localStorage.getItem(key);return r?JSON.parse(r):[]};
+  const save=(key,data)=>localStorage.setItem(key,JSON.stringify(data));
+  if(params.action==='getPresenters'){let p=store('presenters');if(!p.length){p=INITIAL_PRESENTERS;save('presenters',p);}return p;}
+  if(params.action==='savePresenter'){
+    const p=store('presenters');
+    const id=Math.max(0,...p.map(x=>x.id))+1;
+    const brands=params.brands?params.brands.split(',').map(b=>b.trim()).filter(Boolean):[];
+    p.push({id,name:params.name,pin:params.pin,brands,updatedAt:new Date().toISOString()});
+    save('presenters',p);return{success:true,id};
+  }
+  if(params.action==='updatePresenter'){
+    const p=store('presenters');const idx=p.findIndex(x=>String(x.id)===String(params.id));
+    if(idx>=0){
+      if(params.name!==undefined)p[idx].name=params.name;
+      if(params.pin!==undefined)p[idx].pin=params.pin;
+      if(params.brands!==undefined)p[idx].brands=typeof params.brands==='string'?params.brands.split(',').map(b=>b.trim()).filter(Boolean):params.brands;
+      p[idx].updatedAt=new Date().toISOString();save('presenters',p);
+    }
+    return{success:true};
+  }
+  if(params.action==='deletePresenter'){
+    save('presenters',store('presenters').filter(x=>String(x.id)!==String(params.id)));
+    save('availability',store('availability').filter(x=>String(x.presenterId)!==String(params.id)));
+    return{success:true};
+  }
+  if(params.action==='getAllAvailability')return store('availability');
+  if(params.action==='getBrands'){let b=store('brands');if(!b.length){b=INITIAL_BRANDS;save('brands',b);}return b;}
+  if(params.action==='saveBrand'){
+    const b=store('brands');if(!b.includes(params.name)){b.push(params.name);b.sort();save('brands',b);}return{success:true};
+  }
+  if(params.action==='deleteBrand'){save('brands',store('brands').filter(x=>x!==params.name));return{success:true};}
+  return{error:'Unknown'};
+}
+
+// ── Auth ──────────────────────────────────────────────────
+function adminLogin(){
+  const pw=document.getElementById('admin-pw').value;
+  if(pw===ADMIN_PASSWORD){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').style.display='block';
+    initApp();
+  } else {
+    document.getElementById('login-err').style.display='block';
+  }
+}
+document.getElementById('admin-pw').addEventListener('keydown',e=>{if(e.key==='Enter')adminLogin();});
+function adminLogout(){
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('admin-pw').value='';
+}
+
+async function initApp(){
+  await refreshData();
+  renderBrandFilters();
+  renderAdminMonth();
+  renderPTable();
+  renderBrandsTab();
+}
+
+async function refreshData(){
+  [allPresenters, allAvailability, allBrands] = await Promise.all([
+    api({action:'getPresenters'}),
+    api({action:'getAllAvailability'}),
+    api({action:'getBrands'}),
+  ]);
+  allPresenters.sort((a,b)=>a.name.localeCompare(b.name));
+  allPresenters.forEach((p,i)=>pColorMap[p.id]=PCOLORS[i%PCOLORS.length]);
+  document.getElementById('p-count').textContent=`${allPresenters.length} presenter${allPresenters.length!==1?'s':''}`;
+  document.getElementById('b-count').textContent=`${allBrands.length} brand${allBrands.length!==1?'s':''}`;
+}
+
+// ── Brand filter ──────────────────────────────────────────
+function renderBrandFilters(){
+  const c=document.getElementById('brand-filters');
+  c.innerHTML=`<button class="chip ${brandFilter==='all'?'active':''}" onclick="setBrandFilter('all',this)">All</button>`+
+    allBrands.map(b=>`<button class="chip ${brandFilter===b?'active':''}" onclick="setBrandFilter(${JSON.stringify(b)},this)">${b}</button>`).join('');
+}
+
+function setBrandFilter(brand,btn){
+  brandFilter=brand;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  renderAdminMonth();
+}
+
+function filteredPresenterIds(){
+  if(brandFilter==='all') return new Set(allPresenters.map(p=>String(p.id)));
+  return new Set(allPresenters.filter(p=>{
+    const brands=Array.isArray(p.brands)?p.brands:(p.brands||'').split(',').map(b=>b.trim());
+    return brands.includes(brandFilter);
+  }).map(p=>String(p.id)));
+}
+
+// ── Calendar ──────────────────────────────────────────────
+function adminMonth(dir){
+  admM+=dir;
+  if(admM>11){admM=0;admY++;}
+  if(admM<0){admM=11;admY--;}
+  if(admY<2026||(admY===2026&&admM<4)){admY=2026;admM=4;}
+  document.getElementById('adm-prev').disabled=(admY===2026&&admM===4);
+  renderAdminMonth();
+}
+
+function renderAdminMonth(){
+  document.getElementById('adm-month-lbl').textContent=`${MONTHS[admM]} ${admY}`;
+  document.getElementById('adm-prev').disabled=(admY===2026&&admM===4);
+
+  const fids=filteredPresenterIds();
+  const firstDay=new Date(admY,admM,1).getDay();
+  const offset=firstDay===0?6:firstDay-1;
+  const dim=new Date(admY,admM+1,0).getDate();
+  const today=new Date();today.setHours(0,0,0,0);
+
+  // Build date map
+  const dateMap={};
+  allAvailability.forEach(r=>{
+    if(!r.date||!fids.has(String(r.presenterId)))return;
+    const[y,m]=r.date.split('-').map(Number);
+    if(y===admY&&m-1===admM){
+      if(!dateMap[r.date])dateMap[r.date]=[];
+      dateMap[r.date].push(r);
+    }
+  });
+
+  let html='';
+  for(let i=0;i<offset;i++) html+='<div class="cal-day empty"></div>';
+  for(let d=1;d<=dim;d++){
+    const ds=`${admY}-${String(admM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dt=new Date(admY,admM,d);
+    const isToday=dt.getTime()===today.getTime();
+    const entries=dateMap[ds]||[];
+    const pills=entries.map(e=>{
+      const p=allPresenters.find(x=>String(x.id)===String(e.presenterId));
+      const cls=p?(pColorMap[p.id]||'pc0'):'pc0';
+      const first=(p?.name||e.presenterName||'?').split(' ')[0];
+      return`<div class="ppill ${cls}" title="${p?.name||''}">${first}</div>`;
+    }).join('');
+    html+=`<div class="cal-day${isToday?' today':''}" onclick="openDayModal('${ds}',${d})"><div class="day-num">${d}</div><div class="ppills">${pills}</div></div>`;
+  }
+  document.getElementById('adm-cal-days').innerHTML=html;
+}
+
+function openDayModal(ds,d){
+  const dt=new Date(admY,admM,d);
+  document.getElementById('modal-date-ttl').textContent=`${WDAYS[dt.getDay()]}, ${MONTHS[admM]} ${d}, ${admY}`;
+  const fids=filteredPresenterIds();
+  const entries=allAvailability.filter(r=>r.date===ds&&fids.has(String(r.presenterId)));
+  if(!entries.length){
+    document.getElementById('modal-body').innerHTML='<div class="empty-state">No availability logged for this day.</div>';
+  } else {
+    document.getElementById('modal-body').innerHTML=entries.map(e=>{
+      const p=allPresenters.find(x=>String(x.id)===String(e.presenterId));
+      const name=p?.name||e.presenterName||'Unknown';
+      const brands=Array.isArray(p?.brands)?p.brands:(p?.brands||'').split(',').map(b=>b.trim()).filter(Boolean);
+      const slots=Array.isArray(e.slots)?e.slots:[];
+      const cls=p?(pColorMap[p.id]||'pc0'):'pc0';
+      return`<div class="p-entry">
+        <div class="pe-top"><div class="ppill ${cls}" style="font-size:.78rem;padding:2px 8px;max-width:none">${name}</div><span class="pe-brand">${brands.join(', ')||'—'}</span></div>
+        <div class="slot-tags">${slots.map(s=>`<span class="stag">${SLOT_LABELS[s]||s}</span>`).join('')}</div>
+        ${e.note?`<div class="pe-note">${e.note}</div>`:''}
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('day-modal').classList.add('open');
+}
+
+// ── Presenter tab ─────────────────────────────────────────
+function renderPTable(){
+  const tbody=document.getElementById('p-tbody');
+  document.getElementById('p-count').textContent=`${allPresenters.length} presenter${allPresenters.length!==1?'s':''}`;
+  if(!allPresenters.length){
+    tbody.innerHTML='<tr><td colspan="4" class="empty-state">No presenters yet.</td></tr>';return;
+  }
+  tbody.innerHTML=allPresenters.map(p=>{
+    const brands=Array.isArray(p.brands)?p.brands:(p.brands||'').split(',').map(b=>b.trim()).filter(Boolean);
+    const btags=brands.map(b=>`<span class="btag">${b}</span>`).join('')||'<span style="color:var(--muted);font-size:.8rem">None</span>';
+    const pin=p.pin?`<code>${p.pin}</code>`:`<span class="no-pin">⚠ Missing PIN</span>`;
+    return`<tr>
+      <td><strong style="font-weight:700">${p.name}</strong></td>
+      <td>${pin}</td>
+      <td>${btags}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-ghost btn-sm" onclick="openEditModal(${p.id})" style="margin-right:.35rem">Edit</button>
+        <button class="btn btn-danger" onclick="delPresenter(${p.id},'${p.name.replace(/'/g,"\\'")}')" >Remove</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function addPresenter(){
+  const name=document.getElementById('np-name').value.trim();
+  const pin=document.getElementById('np-pin').value.trim();
+  const brands=document.getElementById('np-brands').value.trim();
+  if(!name||pin.length!==4){toast('Enter a name and 4-digit PIN');return;}
+  await api({action:'savePresenter',name,pin,brands});
+  document.getElementById('np-name').value='';
+  document.getElementById('np-pin').value='';
+  document.getElementById('np-brands').value='';
+  await refreshData();
+  renderPTable();renderBrandFilters();renderBrandsTab();
+  toast(`${name} added`);
+}
+
+async function delPresenter(id,name){
+  if(!confirm(`Remove ${name}? Their availability data will also be deleted.`))return;
+  await api({action:'deletePresenter',id});
+  await refreshData();
+  renderPTable();renderAdminMonth();renderBrandFilters();
+  toast(`${name} removed`);
+}
+
+function openEditModal(id){
+  const p=allPresenters.find(x=>String(x.id)===String(id));
+  if(!p)return;
+  document.getElementById('edit-id').value=p.id;
+  document.getElementById('edit-name').value=p.name;
+  document.getElementById('edit-pin').value=p.pin||'';
+  const pBrands=Array.isArray(p.brands)?p.brands:(p.brands||'').split(',').map(b=>b.trim()).filter(Boolean);
+  const cbs=document.getElementById('edit-brand-checkboxes');
+  cbs.innerHTML=allBrands.map(b=>{
+    const checked=pBrands.includes(b);
+    return`<label style="display:flex;align-items:center;gap:.35rem;font-size:.82rem;cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0;color:var(--text)">
+      <input type="checkbox" value="${b}" ${checked?'checked':''} style="width:auto;padding:0"> ${b}
+    </label>`;
+  }).join('');
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+async function saveEdit(){
+  const id=document.getElementById('edit-id').value;
+  const name=document.getElementById('edit-name').value.trim();
+  const pin=document.getElementById('edit-pin').value.trim();
+  const brands=[...document.querySelectorAll('#edit-brand-checkboxes input:checked')].map(c=>c.value);
+  await api({action:'updatePresenter',id,name,pin,brands:JSON.stringify(brands)});
+  closeModalById('edit-modal');
+  await refreshData();
+  renderPTable();renderAdminMonth();renderBrandFilters();
+  toast('Saved');
+}
+
+// ── Brands tab ────────────────────────────────────────────
+function renderBrandsTab(){
+  document.getElementById('b-count').textContent=`${allBrands.length} brand${allBrands.length!==1?'s':''}`;
+  document.getElementById('brand-list').innerHTML=allBrands.map(b=>
+    `<div class="brand-item"><span>${b}</span><button class="brand-del" onclick="delBrand('${b.replace(/'/g,"\\'")}')">✕</button></div>`
+  ).join('');
+}
+
+async function addBrand(){
+  const name=document.getElementById('nb-name').value.trim();
+  if(!name){toast('Enter a brand name');return;}
+  const r=await api({action:'saveBrand',name});
+  if(r.error){toast(r.error);return;}
+  document.getElementById('nb-name').value='';
+  await refreshData();
+  renderBrandsTab();renderBrandFilters();
+  toast(`"${name}" added`);
+}
+
+async function delBrand(name){
+  if(!confirm(`Delete brand "${name}"? This won't remove it from presenters' existing data.`))return;
+  await api({action:'deleteBrand',name});
+  await refreshData();
+  renderBrandsTab();renderBrandFilters();
+  toast(`"${name}" deleted`);
+}
+
+document.getElementById('nb-name').addEventListener('keydown',e=>{if(e.key==='Enter')addBrand();});
+
+// ── Tabs ──────────────────────────────────────────────────
+function switchTab(tab){
+  ['calendar','presenters','brands'].forEach(t=>{
+    document.getElementById(`tab-${t}`).style.display=t===tab?'block':'none';
+  });
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{
+    b.classList.toggle('active',(['calendar','presenters','brands'][i])===tab);
+  });
+}
+
+// ── Modals ────────────────────────────────────────────────
+function closeModal(e,id){if(e.target.id===id)closeModalById(id);}
+function closeModalById(id){document.getElementById(id).classList.remove('open');}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2300);
+}
+</script>
+</body>
+</html>
