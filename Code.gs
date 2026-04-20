@@ -47,6 +47,12 @@ function jsonResponse(data) {
   return output;
 }
 
+// Handle CORS preflight
+function doOptions(e) {
+  return ContentService.createTextOutput('')
+    .setMimeType(ContentService.MimeType.TEXT);
+}
+
 // ── Sheet helpers ─────────────────────────────────────────
 function getSheet(name) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();

@@ -290,9 +290,14 @@ let admY=2026, admM=4;
 // ── API (same localApi pattern) ───────────────────────────
 async function api(params) {
   if (!API_URL) return localApi(params);
-  const url = API_URL + '?' + new URLSearchParams(params);
-  const r = await fetch(url);
-  return r.json();
+  try {
+    const url = API_URL + '?' + new URLSearchParams(params);
+    const r = await fetch(url, {redirect: 'follow'});
+    return r.json();
+  } catch(e) {
+    console.error('API error:', e);
+    throw e;
+  }
 }
 
 function localApi(params) {

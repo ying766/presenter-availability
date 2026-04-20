@@ -222,12 +222,17 @@ let allPresenters = [];
 // ── API ───────────────────────────────────────────────────
 async function api(params) {
   if (!API_URL) {
-    // Demo mode — use localStorage
     return localApi(params);
   }
-  const url = API_URL + '?' + new URLSearchParams(params);
-  const r = await fetch(url);
-  return r.json();
+  // Use no-cors fetch with POST to avoid CORS preflight issues with Apps Script
+  try {
+    const url = API_URL + '?' + new URLSearchParams(params);
+    const r = await fetch(url, {redirect: 'follow'});
+    return r.json();
+  } catch(e) {
+    console.error('API error:', e);
+    throw e;
+  }
 }
 
 function localApi(params) {
