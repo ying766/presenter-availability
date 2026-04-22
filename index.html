@@ -308,6 +308,7 @@ async function enterCalendar() {
   avCache={};
   (Array.isArray(rows)?rows:[]).forEach(r=>{
     const slots=Array.isArray(r.slots)?r.slots:(typeof r.slots==='string'?JSON.parse(r.slots||'[]'):[]);
+    if(slots.length===1&&slots[0]==='cleared') return; // skip cleared entries
     const dateStr=String(r.date).slice(0,10);
     avCache[dateStr]={slots,note:r.note||''};
   });
@@ -550,7 +551,7 @@ async function clearSelectedDays(){
   const dates=[...selectedDates];
   try {
     await Promise.all(dates.map(date=>api({action:'upsertAvailability',presenterId:presenter.id,
-      presenterName:presenter.name,date,slots:'[]',note:''})));
+      presenterName:presenter.name,date,slots:'["cleared"]',note:''})));
     dates.forEach(date=>delete avCache[date]);
     toast(`Cleared ${dates.length} day${dates.length!==1?'s':''}`);
     selectedDates=new Set();updateBulkUI();renderMonth();
