@@ -276,7 +276,7 @@ async function loadPresenters() {
     allPresenters=await api({action:'getPresenters'});
     allPresenters.sort((a,b)=>a.name.localeCompare(b.name));
     sel.innerHTML='<option value="">Select your name…</option>'+
-      allPresenters.map(p=>`<option value="${p.id}" data-pin="${p.pin}">${p.name}</option>`).join('');
+      allPresenters.map(p=>`<option value="${p.id}" data-pin="${String(p.pin)}">${p.name}</option>`).join('');
   } catch(e){sel.innerHTML='<option value="">Error — check connection</option>';}
 }
 
@@ -286,7 +286,7 @@ async function doLogin() {
   if(!sel.value){errEl.textContent='Please select your name.';errEl.style.display='block';return;}
   if(!pin){errEl.textContent='Please enter your PIN.';errEl.style.display='block';return;}
   if(!opt.dataset.pin){errEl.textContent='No PIN set — contact your admin.';errEl.style.display='block';return;}
-  if(pin!==opt.dataset.pin){errEl.style.display='block';errEl.textContent='Incorrect PIN. Please try again.';return;}
+  if(pin!==String(opt.dataset.pin)){errEl.style.display='block';errEl.textContent='Incorrect PIN. Please try again.';return;}
   errEl.style.display='none';
   presenter=allPresenters.find(x=>String(x.id)===sel.value);
   await enterCalendar();
@@ -307,7 +307,8 @@ async function enterCalendar() {
   avCache={};
   (Array.isArray(rows)?rows:[]).forEach(r=>{
     const slots=Array.isArray(r.slots)?r.slots:(typeof r.slots==='string'?JSON.parse(r.slots||'[]'):[]);
-    avCache[r.date]={slots,note:r.note||''};
+    const dateStr=String(r.date).slice(0,10);
+    avCache[dateStr]={slots,note:r.note||''};
   });
   hideLoading();
   renderMonth();
