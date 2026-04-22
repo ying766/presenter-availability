@@ -14,76 +14,86 @@
   --warn:#8B3A3A;--warn-light:#FDF0F0;--radius:10px;
 }
 body{font-family:'Lato',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
-
 header{padding:1.5rem 2rem;border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;gap:1rem}
 .logo-mark{width:32px;height:32px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .logo-mark svg{width:18px;height:18px;fill:none;stroke:white;stroke-width:2;stroke-linecap:round}
-header h1{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:400;letter-spacing:0.01em}
-header p{color:var(--muted);font-size:0.8rem;font-weight:300;margin-top:1px}
-
+header h1{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:400;letter-spacing:.01em}
+header p{color:var(--muted);font-size:.8rem;font-weight:300;margin-top:1px}
 main{flex:1;padding:2rem;max-width:820px;width:100%;margin:0 auto}
 
-/* ── Login ── */
+/* Login */
 #login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:62vh}
 .login-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:100%;max-width:400px}
 .login-card h2{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;margin-bottom:.3rem}
 .login-card .sub{color:var(--muted);font-size:.83rem;font-weight:300;margin-bottom:2rem;line-height:1.5}
 label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem}
 .field{margin-bottom:1.25rem}
-select,input[type=text],input[type=password]{width:100%;padding:.7rem .9rem;border:1px solid var(--border);border-radius:var(--radius);font-family:'Lato',sans-serif;font-size:.93rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .15s;appearance:none}
+select,input[type=text]{width:100%;padding:.7rem .9rem;border:1px solid var(--border);border-radius:var(--radius);font-family:'Lato',sans-serif;font-size:.93rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .15s;appearance:none}
 select:focus,input:focus{border-color:var(--accent-mid)}
 .select-wrap{position:relative}
 .select-wrap::after{content:'▾';position:absolute;right:.9rem;top:50%;transform:translateY(-60%);color:var(--muted);pointer-events:none;font-size:.75rem}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.7rem 1.4rem;border-radius:var(--radius);font-family:'Lato',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;border:none;transition:all .15s;letter-spacing:.03em}
 .btn-primary{background:var(--accent);color:#fff;width:100%}
 .btn-primary:hover{background:#275c3a}
-.btn-primary:disabled{opacity:.45;cursor:not-allowed}
 .err{color:var(--warn);font-size:.8rem;margin-top:-.6rem;margin-bottom:.9rem}
 
-/* ── Calendar screen ── */
+/* Calendar screen */
 #cal-screen{display:none}
-.toprow{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;flex-wrap:wrap;gap:.75rem}
+.toprow{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem}
 .presenter-badge{display:flex;align-items:center;gap:.75rem}
 .avatar{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700;flex-shrink:0}
 .p-name{font-weight:700;font-size:.95rem}
 .p-brands{font-size:.78rem;color:var(--muted);font-weight:300;margin-top:1px}
-.btn-sm-ghost{background:none;border:1px solid var(--border);color:var(--muted);font-size:.78rem;padding:.38rem .8rem;border-radius:6px;cursor:pointer;font-family:'Lato',sans-serif;font-weight:400;transition:all .15s}
+.btn-sm-ghost{background:none;border:1px solid var(--border);color:var(--muted);font-size:.78rem;padding:.38rem .8rem;border-radius:6px;cursor:pointer;font-family:'Lato',sans-serif;transition:all .15s}
 .btn-sm-ghost:hover{border-color:var(--accent-mid);color:var(--accent)}
-
-.month-nav{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+.month-nav{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem}
 .month-label{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;flex:1}
 .nav-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--text);transition:all .15s;flex-shrink:0}
 .nav-btn:hover{border-color:var(--accent-mid);color:var(--accent)}
 .nav-btn:disabled{opacity:.3;cursor:default}
 
-.legend{display:flex;gap:1.25rem;flex-wrap:wrap;font-size:.75rem;color:var(--muted);margin-bottom:.85rem}
+/* Bulk bar */
+.bulk-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.75rem}
+.bulk-hint{font-size:.75rem;color:var(--muted)}
+.bulk-hint strong{color:var(--accent-mid);font-weight:700}
+.bulk-btns{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center}
+.btn-bulk{background:none;border:1px solid var(--border);color:var(--text);font-size:.75rem;padding:.3rem .75rem;border-radius:6px;cursor:pointer;font-family:'Lato',sans-serif;font-weight:700;transition:all .15s;white-space:nowrap}
+.btn-bulk:hover{border-color:var(--accent-mid);color:var(--accent)}
+.sel-badge{font-size:.73rem;color:var(--accent);font-weight:700;background:var(--accent-light);padding:.2rem .65rem;border-radius:12px}
+
+/* Legend */
+.legend{display:flex;gap:1.25rem;flex-wrap:wrap;font-size:.75rem;color:var(--muted);margin-bottom:.75rem}
 .legend-item{display:flex;align-items:center;gap:.35rem}
 .ldot{width:10px;height:10px;border-radius:50%}
 .ldot.has{background:var(--accent-mid)}
+.ldot.sel{background:var(--accent)}
 
 /* Calendar */
-.cal-grid{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1.5rem}
+.cal-grid{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1.25rem;user-select:none;-webkit-user-select:none}
 .cal-wdays{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--border)}
 .cal-wday{padding:.55rem;text-align:center;font-size:.67rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .cal-days{display:grid;grid-template-columns:repeat(7,1fr)}
-.cal-day{min-height:72px;padding:.45rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s;position:relative}
+.cal-day{min-height:72px;padding:.45rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;transition:background .08s;position:relative}
 .cal-day:nth-child(7n){border-right:none}
-.cal-day.empty{cursor:default;background:var(--bg);opacity:.5}
+.cal-day.empty{cursor:default;background:var(--bg);opacity:.5;pointer-events:none}
+.cal-day.past{opacity:.35;cursor:default;pointer-events:none}
 .cal-day:not(.empty):not(.past):hover{background:var(--accent-light)}
 .cal-day.has-slots{background:var(--accent-light)}
+.cal-day.dragging{background:#c8e6d0!important}
 .cal-day.selected{background:var(--accent)!important}
-.cal-day.past{opacity:.35;cursor:default;pointer-events:none}
+.cal-day.selected .day-num,.cal-day.selected .saved-lbl{color:#fff}
+.cal-day.selected .sdot{background:rgba(255,255,255,.65)}
 .day-num{font-size:.78rem;font-weight:700;line-height:1;margin-bottom:3px}
-.cal-day.selected .day-num{color:#fff}
 .cal-day.today .day-num{background:var(--accent-mid);color:#fff;width:21px;height:21px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem}
 .slot-dots{display:flex;flex-wrap:wrap;gap:2px;margin-top:3px}
 .sdot{width:5px;height:5px;border-radius:50%;background:var(--accent-mid)}
-.cal-day.selected .sdot{background:rgba(255,255,255,.7)}
+.saved-lbl{font-size:.6rem;color:rgba(255,255,255,.75);margin-top:3px}
 
 /* Slot panel */
-.slot-panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;animation:fadeUp .2s ease}
+.slot-panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;animation:fadeUp .18s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.panel-date{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;margin-bottom:1rem}
+.panel-date{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;margin-bottom:.35rem}
+.panel-sub{font-size:.78rem;color:var(--muted);margin-bottom:1rem}
 .slots-row{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1rem}
 .slot-btn{padding:.5rem .95rem;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Lato',sans-serif;font-size:.83rem;font-weight:400;cursor:pointer;transition:all .15s;color:var(--text)}
 .slot-btn:hover{border-color:var(--accent-mid)}
@@ -101,10 +111,8 @@ textarea:focus{border-color:var(--accent-mid)}
 .btn-clr{background:none;border:1px solid var(--border);color:var(--muted);padding:.5rem 1rem;font-size:.83rem}
 .btn-clr:hover{border-color:var(--warn);color:var(--warn)}
 
-/* Toast */
 .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--accent);color:#fff;padding:.65rem 1.5rem;border-radius:30px;font-size:.85rem;font-weight:700;transition:transform .3s ease;z-index:1000;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
-
 .loading-overlay{position:fixed;inset:0;background:rgba(250,250,248,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;z-index:500;font-size:.9rem;color:var(--muted)}
 .big-spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
 
@@ -112,7 +120,6 @@ textarea:focus{border-color:var(--accent-mid)}
 </style>
 </head>
 <body>
-
 <header>
   <div class="logo-mark">
     <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
@@ -129,13 +136,11 @@ textarea:focus{border-color:var(--accent-mid)}
       <h2>Sign In</h2>
       <p class="sub">Select your name, then enter the last 4 digits of your phone number as your PIN.</p>
       <div class="field">
-        <label for="name-sel">Your name</label>
-        <div class="select-wrap">
-          <select id="name-sel"><option value="">Loading…</option></select>
-        </div>
+        <label>Your name</label>
+        <div class="select-wrap"><select id="name-sel"><option value="">Loading…</option></select></div>
       </div>
       <div class="field">
-        <label for="pin-in">PIN — last 4 digits of your phone</label>
+        <label>PIN — last 4 digits of your phone</label>
         <input type="text" id="pin-in" maxlength="4" placeholder="e.g. 5838" inputmode="numeric" autocomplete="off">
       </div>
       <div id="login-err" class="err" style="display:none">Incorrect PIN. Please try again.</div>
@@ -161,8 +166,19 @@ textarea:focus{border-color:var(--accent-mid)}
       <button class="nav-btn" onclick="changeMonth(1)">▶</button>
     </div>
 
+    <div class="bulk-bar">
+      <span class="bulk-hint">Click a date or <strong>drag</strong> to select multiple</span>
+      <div class="bulk-btns">
+        <div id="sel-badge-wrap"></div>
+        <button class="btn-bulk" onclick="selectWeekdays()">Weekdays</button>
+        <button class="btn-bulk" onclick="selectWholeMonth()">Whole month</button>
+        <button class="btn-bulk" id="btn-desel" style="display:none;color:var(--warn)" onclick="deselectAll()">Deselect all</button>
+      </div>
+    </div>
+
     <div class="legend">
-      <div class="legend-item"><div class="ldot has"></div>Has availability saved</div>
+      <div class="legend-item"><div class="ldot has"></div>Has availability</div>
+      <div class="legend-item"><div class="ldot sel"></div>Selected</div>
     </div>
 
     <div class="cal-grid">
@@ -175,6 +191,7 @@ textarea:focus{border-color:var(--accent-mid)}
 
     <div id="slot-panel" class="slot-panel" style="display:none">
       <div class="panel-date" id="panel-date"></div>
+      <div class="panel-sub" id="panel-sub"></div>
       <div class="slots-row">
         <button class="slot-btn" data-slot="allday" onclick="toggleSlot(this)">All day</button>
         <button class="slot-btn" data-slot="morning" onclick="toggleSlot(this)">Morning (9–12)</button>
@@ -190,8 +207,8 @@ textarea:focus{border-color:var(--accent-mid)}
         <div class="saving-row" id="saving-row" style="display:none"><div class="spinner"></div> Saving…</div>
         <div style="flex:1"></div>
         <div class="panel-actions">
-          <button class="btn btn-clr" onclick="clearDay()">Clear day</button>
-          <button class="btn btn-save" onclick="saveDay()">Save</button>
+          <button class="btn btn-clr" id="btn-clr" onclick="clearSelectedDays()">Clear day</button>
+          <button class="btn btn-save" onclick="saveDays()">Save</button>
         </div>
       </div>
     </div>
@@ -208,173 +225,96 @@ textarea:focus{border-color:var(--accent-mid)}
 <script src="data.js"></script>
 <script>
 const API_URL = window.APPS_SCRIPT_URL || '';
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const WDAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MIN_Y=2026, MIN_M=4;
 
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const WDAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-const MIN_Y = 2026, MIN_M = 4;
-
-let presenter = null;
-let avCache = {}; // dateStr -> {slots, note}
-let viewY = 2026, viewM = 4;
-let selDate = null;
-let allPresenters = [];
+let presenter=null, avCache={}, viewY=2026, viewM=4, allPresenters=[];
+let selectedDates=new Set();
+let isDragging=false, dragStart=null, dragCurrent=null;
 
 // ── API ───────────────────────────────────────────────────
 async function api(params) {
-  if (!API_URL) {
-    return localApi(params);
-  }
-  // Use no-cors fetch with POST to avoid CORS preflight issues with Apps Script
+  if(!API_URL) return localApi(params);
   try {
-    const url = API_URL + '?' + new URLSearchParams(params);
-    const r = await fetch(url, {redirect: 'follow'});
+    const r=await fetch(API_URL+'?'+new URLSearchParams(params),{redirect:'follow'});
     return r.json();
-  } catch(e) {
-    console.error('API error:', e);
-    throw e;
-  }
+  } catch(e){console.error(e);throw e;}
 }
 
-function localApi(params) {
-  const store = key => {
-    const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : [];
-  };
-  const save = (key, data) => localStorage.setItem(key, JSON.stringify(data));
-
-  if (params.action === 'getPresenters') {
-    let p = store('presenters');
-    if (p.length === 0) { p = INITIAL_PRESENTERS; save('presenters', p); }
-    return p;
+function localApi(p) {
+  const S=k=>{const r=localStorage.getItem(k);return r?JSON.parse(r):[]};
+  const W=(k,d)=>localStorage.setItem(k,JSON.stringify(d));
+  if(p.action==='getPresenters'){let x=S('presenters');if(!x.length){x=INITIAL_PRESENTERS;W('presenters',x);}return x;}
+  if(p.action==='updatePresenter'){
+    const x=S('presenters'),i=x.findIndex(a=>String(a.id)===String(p.id));
+    if(i>=0){if(p.name)x[i].name=p.name;if(p.pin!==undefined)x[i].pin=p.pin;
+      if(p.brands!==undefined)x[i].brands=typeof p.brands==='string'?p.brands.split(',').map(b=>b.trim()).filter(Boolean):p.brands;
+      x[i].updatedAt=new Date().toISOString();W('presenters',x);}return{success:true};
   }
-  if (params.action === 'savePresenter') {
-    const p = store('presenters');
-    const id = (Math.max(0, ...p.map(x=>x.id)) + 1);
-    const brands = params.brands ? params.brands.split(',').map(b=>b.trim()).filter(Boolean) : [];
-    p.push({id, name:params.name, pin:params.pin, brands, updatedAt:new Date().toISOString()});
-    save('presenters', p);
-    return {success:true, id};
+  if(p.action==='deletePresenter'){W('presenters',S('presenters').filter(a=>String(a.id)!==String(p.id)));W('availability',S('availability').filter(a=>String(a.presenterId)!==String(p.id)));return{success:true};}
+  if(p.action==='getAvailability'){let av=S('availability');if(p.presenterId)av=av.filter(a=>String(a.presenterId)===String(p.presenterId));return av;}
+  if(p.action==='getAllAvailability')return S('availability');
+  if(p.action==='upsertAvailability'){
+    let av=S('availability');
+    const slots=typeof p.slots==='string'?JSON.parse(p.slots):(p.slots||[]);
+    const i=av.findIndex(a=>String(a.presenterId)===String(p.presenterId)&&a.date===p.date);
+    if(i>=0){if(slots.length===0)av.splice(i,1);else av[i]={...av[i],slots,note:p.note||'',updatedAt:new Date().toISOString()};}
+    else if(slots.length>0)av.push({id:Date.now(),presenterId:p.presenterId,presenterName:p.presenterName,date:p.date,slots,note:p.note||'',updatedAt:new Date().toISOString()});
+    W('availability',av);return{success:true};
   }
-  if (params.action === 'updatePresenter') {
-    const p = store('presenters');
-    const idx = p.findIndex(x=>String(x.id)===String(params.id));
-    if (idx>=0) {
-      if (params.name) p[idx].name = params.name;
-      if (params.pin !== undefined) p[idx].pin = params.pin;
-      if (params.brands !== undefined) {
-        p[idx].brands = typeof params.brands === 'string'
-          ? params.brands.split(',').map(b=>b.trim()).filter(Boolean)
-          : params.brands;
-      }
-      p[idx].updatedAt = new Date().toISOString();
-      save('presenters', p);
-    }
-    return {success:true};
-  }
-  if (params.action === 'deletePresenter') {
-    const p = store('presenters').filter(x=>String(x.id)!==String(params.id));
-    save('presenters', p);
-    let av = store('availability').filter(x=>String(x.presenterId)!==String(params.id));
-    save('availability', av);
-    return {success:true};
-  }
-  if (params.action === 'getAvailability') {
-    let av = store('availability');
-    if (params.presenterId) av = av.filter(x=>String(x.presenterId)===String(params.presenterId));
-    return av;
-  }
-  if (params.action === 'getAllAvailability') {
-    return store('availability');
-  }
-  if (params.action === 'upsertAvailability') {
-    let av = store('availability');
-    const slots = typeof params.slots === 'string' ? JSON.parse(params.slots) : (params.slots||[]);
-    const idx = av.findIndex(x=>String(x.presenterId)===String(params.presenterId) && x.date===params.date);
-    if (idx>=0) {
-      if (slots.length===0) { av.splice(idx,1); }
-      else { av[idx] = {...av[idx], slots, note:params.note||'', updatedAt:new Date().toISOString()}; }
-    } else if (slots.length>0) {
-      av.push({id:Date.now(), presenterId:params.presenterId, presenterName:params.presenterName, date:params.date, slots, note:params.note||'', updatedAt:new Date().toISOString()});
-    }
-    save('availability', av);
-    return {success:true};
-  }
-  if (params.action === 'getBrands') {
-    let b = store('brands');
-    if (b.length === 0) { b = INITIAL_BRANDS; save('brands', b); }
-    return b;
-  }
-  if (params.action === 'saveBrand') {
-    const b = store('brands');
-    if (!b.includes(params.name)) { b.push(params.name); b.sort(); save('brands', b); }
-    return {success:true};
-  }
-  if (params.action === 'deleteBrand') {
-    const b = store('brands').filter(x=>x!==params.name);
-    save('brands', b);
-    return {success:true};
-  }
-  return {error:'Unknown action'};
+  if(p.action==='getBrands'){let b=S('brands');if(!b.length){b=INITIAL_BRANDS;W('brands',b);}return b;}
+  if(p.action==='saveBrand'){const b=S('brands');if(!b.includes(p.name)){b.push(p.name);b.sort();W('brands',b);}return{success:true};}
+  if(p.action==='deleteBrand'){W('brands',S('brands').filter(x=>x!==p.name));return{success:true};}
+  return{error:'Unknown'};
 }
 
 // ── Login ─────────────────────────────────────────────────
 async function loadPresenters() {
-  const sel = document.getElementById('name-sel');
+  const sel=document.getElementById('name-sel');
   try {
-    allPresenters = await api({action:'getPresenters'});
+    allPresenters=await api({action:'getPresenters'});
     allPresenters.sort((a,b)=>a.name.localeCompare(b.name));
-    sel.innerHTML = '<option value="">Select your name…</option>' +
+    sel.innerHTML='<option value="">Select your name…</option>'+
       allPresenters.map(p=>`<option value="${p.id}" data-pin="${p.pin}">${p.name}</option>`).join('');
-  } catch(e) {
-    sel.innerHTML = '<option value="">Error — check connection</option>';
-  }
+  } catch(e){sel.innerHTML='<option value="">Error — check connection</option>';}
 }
 
 async function doLogin() {
-  const sel = document.getElementById('name-sel');
-  const pin = document.getElementById('pin-in').value.trim();
-  const errEl = document.getElementById('login-err');
-  const opt = sel.options[sel.selectedIndex];
-
-  if (!sel.value) { errEl.textContent='Please select your name.'; errEl.style.display='block'; return; }
-  if (!pin) { errEl.textContent='Please enter your PIN.'; errEl.style.display='block'; return; }
-
-  const storedPin = opt.dataset.pin;
-  if (!storedPin) { errEl.textContent='No PIN set for this account — contact your admin.'; errEl.style.display='block'; return; }
-  if (pin !== storedPin) { errEl.style.display='block'; errEl.textContent='Incorrect PIN. Please try again.'; return; }
-
+  const sel=document.getElementById('name-sel'),pin=document.getElementById('pin-in').value.trim();
+  const errEl=document.getElementById('login-err'),opt=sel.options[sel.selectedIndex];
+  if(!sel.value){errEl.textContent='Please select your name.';errEl.style.display='block';return;}
+  if(!pin){errEl.textContent='Please enter your PIN.';errEl.style.display='block';return;}
+  if(!opt.dataset.pin){errEl.textContent='No PIN set — contact your admin.';errEl.style.display='block';return;}
+  if(pin!==opt.dataset.pin){errEl.style.display='block';errEl.textContent='Incorrect PIN. Please try again.';return;}
   errEl.style.display='none';
-  const p = allPresenters.find(x=>String(x.id)===sel.value);
-  presenter = p;
+  presenter=allPresenters.find(x=>String(x.id)===sel.value);
   await enterCalendar();
 }
 
-document.getElementById('pin-in').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+document.getElementById('pin-in').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 
 async function enterCalendar() {
   showLoading('Loading your availability…');
   document.getElementById('login-screen').style.display='none';
   document.getElementById('cal-screen').style.display='block';
-
-  const initials = presenter.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  const initials=presenter.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
   document.getElementById('av-initials').textContent=initials;
   document.getElementById('disp-name').textContent=presenter.name;
-  const brands = Array.isArray(presenter.brands) ? presenter.brands : [];
-  document.getElementById('disp-brands').textContent = brands.length ? brands.join(', ') : 'No brand assigned';
-
-  const rows = await api({action:'getAvailability', presenterId:presenter.id});
-  avCache = {};
+  const brands=Array.isArray(presenter.brands)?presenter.brands:[];
+  document.getElementById('disp-brands').textContent=brands.length?brands.join(', '):'No brand assigned';
+  const rows=await api({action:'getAvailability',presenterId:presenter.id});
+  avCache={};
   (Array.isArray(rows)?rows:[]).forEach(r=>{
-    const slots = Array.isArray(r.slots) ? r.slots : (typeof r.slots==='string'?JSON.parse(r.slots||'[]'):[]);
-    avCache[r.date] = {slots, note:r.note||''};
+    const slots=Array.isArray(r.slots)?r.slots:(typeof r.slots==='string'?JSON.parse(r.slots||'[]'):[]);
+    avCache[r.date]={slots,note:r.note||''};
   });
-
   hideLoading();
   renderMonth();
 }
 
 function signOut() {
-  presenter=null; avCache={}; selDate=null;
+  presenter=null;avCache={};selectedDates=new Set();
   document.getElementById('slot-panel').style.display='none';
   document.getElementById('cal-screen').style.display='none';
   document.getElementById('login-screen').style.display='flex';
@@ -383,67 +323,196 @@ function signOut() {
 
 // ── Calendar ──────────────────────────────────────────────
 function changeMonth(dir) {
-  viewM += dir;
-  if(viewM>11){viewM=0;viewY++;}
-  if(viewM<0){viewM=11;viewY--;}
+  viewM+=dir;
+  if(viewM>11){viewM=0;viewY++;}if(viewM<0){viewM=11;viewY--;}
   if(viewY<MIN_Y||(viewY===MIN_Y&&viewM<MIN_M)){viewY=MIN_Y;viewM=MIN_M;}
-  document.getElementById('prev-btn').disabled=(viewY===MIN_Y&&viewM===MIN_M);
-  selDate=null;
+  selectedDates=new Set();
   document.getElementById('slot-panel').style.display='none';
-  renderMonth();
+  updateBulkUI();renderMonth();
+}
+
+function getDateStr(y,m,d){return`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
+
+function getDragRange(a,b) {
+  const result=new Set();
+  const today=new Date();today.setHours(0,0,0,0);
+  let d1=new Date(a),d2=new Date(b);
+  if(d1>d2)[d1,d2]=[d2,d1];
+  const cur=new Date(d1);
+  while(cur<=d2){
+    if(cur>=today&&cur.getFullYear()===viewY&&cur.getMonth()===viewM)
+      result.add(getDateStr(cur.getFullYear(),cur.getMonth(),cur.getDate()));
+    cur.setDate(cur.getDate()+1);
+  }
+  return result;
 }
 
 function renderMonth() {
   document.getElementById('month-lbl').textContent=`${MONTHS[viewM]} ${viewY}`;
   document.getElementById('prev-btn').disabled=(viewY===MIN_Y&&viewM===MIN_M);
-
   const firstDay=new Date(viewY,viewM,1).getDay();
   const offset=firstDay===0?6:firstDay-1;
   const dim=new Date(viewY,viewM+1,0).getDate();
-  const today=new Date(); today.setHours(0,0,0,0);
+  const today=new Date();today.setHours(0,0,0,0);
+  const dragRange=isDragging&&dragStart&&dragCurrent?getDragRange(dragStart,dragCurrent):new Set();
 
   let html='';
-  for(let i=0;i<offset;i++) html+='<div class="cal-day empty"></div>';
+  for(let i=0;i<offset;i++)html+='<div class="cal-day empty"></div>';
   for(let d=1;d<=dim;d++){
-    const ds=`${viewY}-${String(viewM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const ds=getDateStr(viewY,viewM,d);
     const dt=new Date(viewY,viewM,d);
-    const isPast=dt<today;
-    const isToday=dt.getTime()===today.getTime();
-    const hasSlots=(avCache[ds]?.slots?.length>0);
-    const isSel=(selDate===ds);
+    const isPast=dt<today,isToday=dt.getTime()===today.getTime();
+    const hasSl=(avCache[ds]?.slots?.length>0);
+    const isSel=selectedDates.has(ds);
+    const inDrag=dragRange.has(ds);
 
     let cls='cal-day';
-    if(isPast) cls+=' past';
-    if(isToday) cls+=' today';
-    if(hasSlots&&!isSel) cls+=' has-slots';
-    if(isSel) cls+=' selected';
-
-    const dots=hasSlots?`<div class="slot-dots">${avCache[ds].slots.map(()=>'<div class="sdot"></div>').join('')}</div>`:'';
-    html+=`<div class="${cls}" onclick="selectDay('${ds}',${d})"><div class="day-num">${d}</div>${dots}</div>`;
+    if(isPast)cls+=' past';
+    else{
+      if(isToday)cls+=' today';
+      if(isSel)cls+=' selected';
+      else if(inDrag)cls+=' dragging';
+      else if(hasSl)cls+=' has-slots';
+    }
+    const dots=hasSl&&!isSel?`<div class="slot-dots">${avCache[ds].slots.map(()=>'<div class="sdot"></div>').join('')}</div>`:'';
+    const savedLbl=hasSl&&isSel?'<div class="saved-lbl">✓ saved</div>':'';
+    html+=`<div class="${cls}" data-date="${ds}"><div class="day-num">${d}</div>${dots}${savedLbl}</div>`;
   }
-  document.getElementById('cal-days').innerHTML=html;
+  const container=document.getElementById('cal-days');
+  container.innerHTML=html;
+  bindCalEvents(container);
 }
 
-function selectDay(ds, d) {
-  selDate=ds; renderMonth();
-  const dt=new Date(viewY,viewM,d);
-  document.getElementById('panel-date').textContent=`${WDAYS[dt.getDay()]}, ${MONTHS[viewM]} ${d}, ${viewY}`;
+function bindCalEvents(container) {
+  // Mouse
+  container.onmousedown=e=>{
+    const day=e.target.closest('.cal-day:not(.empty):not(.past)');
+    if(!day)return;
+    e.preventDefault();
+    isDragging=true;dragStart=day.dataset.date;dragCurrent=day.dataset.date;
+    renderMonth();
+  };
+  container.onmousemove=e=>{
+    if(!isDragging)return;
+    const day=e.target.closest('.cal-day:not(.empty):not(.past)');
+    if(day&&day.dataset.date!==dragCurrent){dragCurrent=day.dataset.date;renderMonth();}
+  };
+  document.onmouseup=e=>{
+    if(!isDragging)return;
+    isDragging=false;
+    if(dragStart){
+      const range=getDragRange(dragStart,dragCurrent||dragStart);
+      const allSel=[...range].every(d=>selectedDates.has(d));
+      if(allSel&&range.size>0)range.forEach(d=>selectedDates.delete(d));
+      else range.forEach(d=>selectedDates.add(d));
+    }
+    dragStart=null;dragCurrent=null;
+    updateBulkUI();renderMonth();
+    if(selectedDates.size>0)openPanel();
+  };
+  // Touch
+  container.ontouchstart=e=>{
+    const day=e.target.closest('.cal-day:not(.empty):not(.past)');
+    if(!day)return;
+    isDragging=true;dragStart=day.dataset.date;dragCurrent=day.dataset.date;
+  };
+  container.ontouchmove=e=>{
+    if(!isDragging)return;
+    e.preventDefault();
+    const t=e.touches[0];
+    const el=document.elementFromPoint(t.clientX,t.clientY);
+    const day=el?.closest('.cal-day:not(.empty):not(.past)');
+    if(day&&day.dataset.date!==dragCurrent){dragCurrent=day.dataset.date;renderMonth();}
+  },{passive:false};
+  container.ontouchend=e=>{
+    if(!isDragging)return;
+    isDragging=false;
+    if(dragStart){
+      const range=getDragRange(dragStart,dragCurrent||dragStart);
+      range.forEach(d=>selectedDates.add(d));
+    }
+    dragStart=null;dragCurrent=null;
+    updateBulkUI();renderMonth();
+    if(selectedDates.size>0)openPanel();
+  };
+}
 
-  const cur=avCache[ds]||{slots:[],note:''};
-  document.querySelectorAll('.slot-btn').forEach(b=>b.classList.toggle('active',cur.slots.includes(b.dataset.slot)));
-  document.getElementById('note-in').value=cur.note||'';
-  document.getElementById('note-field').style.display=cur.slots.includes('other')?'block':'none';
+// ── Bulk helpers ──────────────────────────────────────────
+function selectWholeMonth(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const dim=new Date(viewY,viewM+1,0).getDate();
+  selectedDates=new Set();
+  for(let d=1;d<=dim;d++){
+    const dt=new Date(viewY,viewM,d);
+    if(dt>=today)selectedDates.add(getDateStr(viewY,viewM,d));
+  }
+  updateBulkUI();renderMonth();if(selectedDates.size>0)openPanel();
+}
+
+function selectWeekdays(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const dim=new Date(viewY,viewM+1,0).getDate();
+  selectedDates=new Set();
+  for(let d=1;d<=dim;d++){
+    const dt=new Date(viewY,viewM,d);
+    if(dt>=today&&dt.getDay()!==0&&dt.getDay()!==6)selectedDates.add(getDateStr(viewY,viewM,d));
+  }
+  updateBulkUI();renderMonth();if(selectedDates.size>0)openPanel();
+}
+
+function deselectAll(){
+  selectedDates=new Set();updateBulkUI();renderMonth();
+  document.getElementById('slot-panel').style.display='none';
+}
+
+function updateBulkUI(){
+  const n=selectedDates.size;
+  const wrap=document.getElementById('sel-badge-wrap');
+  const desel=document.getElementById('btn-desel');
+  wrap.innerHTML=n>0?`<span class="sel-badge">${n} day${n!==1?'s':''} selected</span>`:'';
+  desel.style.display=n>0?'inline':'none';
+}
+
+// ── Slot panel ────────────────────────────────────────────
+function openPanel(){
+  const sorted=[...selectedDates].sort();
+  const n=sorted.length;
+  let dateLabel='';
+  if(n===1){
+    const[y,m,d]=sorted[0].split('-').map(Number);
+    const dt=new Date(y,m-1,d);
+    dateLabel=`${WDAYS[dt.getDay()]}, ${MONTHS[m-1]} ${d}, ${y}`;
+  } else {
+    const[,fm,fd]=sorted[0].split('-').map(Number);
+    const[,lm,ld]=sorted[n-1].split('-').map(Number);
+    dateLabel=`${MONTHS[fm-1]} ${fd} – ${MONTHS[lm-1]} ${ld}, ${viewY}`;
+  }
+  document.getElementById('panel-date').textContent=dateLabel;
+  document.getElementById('panel-sub').textContent=n>1?`Applying to ${n} days — all will get the same time slots`:'';
+
+  // Load existing for single date
+  if(n===1){
+    const cur=avCache[sorted[0]]||{slots:[],note:''};
+    document.querySelectorAll('.slot-btn').forEach(b=>b.classList.toggle('active',cur.slots.includes(b.dataset.slot)));
+    document.getElementById('note-in').value=cur.note||'';
+    document.getElementById('note-field').style.display=cur.slots.includes('other')?'block':'none';
+  } else {
+    document.querySelectorAll('.slot-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById('note-in').value='';
+    document.getElementById('note-field').style.display='none';
+  }
+  document.getElementById('btn-clr').textContent=n>1?`Clear ${n} days`:'Clear day';
   document.getElementById('saving-row').style.display='none';
   document.getElementById('slot-panel').style.display='block';
   document.getElementById('slot-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-function toggleSlot(btn) {
+function toggleSlot(btn){
   const slot=btn.dataset.slot;
   if(slot==='allday'){
     const was=btn.classList.contains('active');
     document.querySelectorAll('.slot-btn').forEach(b=>b.classList.remove('active'));
-    if(!was) btn.classList.add('active');
+    if(!was)btn.classList.add('active');
   } else {
     document.querySelector('[data-slot="allday"]').classList.remove('active');
     btn.classList.toggle('active');
@@ -452,52 +521,49 @@ function toggleSlot(btn) {
     document.querySelector('[data-slot="other"]').classList.contains('active')?'block':'none';
 }
 
-async function saveDay() {
-  if(!selDate) return;
+async function saveDays(){
+  if(!selectedDates.size)return;
   const slots=[...document.querySelectorAll('.slot-btn.active')].map(b=>b.dataset.slot);
   const note=document.getElementById('note-in').value.trim();
+  if(!slots.length){toast('Please select at least one time slot');return;}
   document.getElementById('saving-row').style.display='flex';
+  const dates=[...selectedDates];
   try {
-    await api({action:'upsertAvailability', presenterId:presenter.id,
-      presenterName:presenter.name, date:selDate,
-      slots:JSON.stringify(slots), note});
-    if(slots.length>0) avCache[selDate]={slots,note};
-    else delete avCache[selDate];
-    renderMonth();
-    toast('Saved ✓');
-  } catch(e){ toast('Error saving — try again'); }
+    await Promise.all(dates.map(date=>api({action:'upsertAvailability',presenterId:presenter.id,
+      presenterName:presenter.name,date,slots:JSON.stringify(slots),note})));
+    dates.forEach(date=>{avCache[date]={slots,note};});
+    toast(`Saved ${dates.length} day${dates.length!==1?'s':''} ✓`);
+    selectedDates=new Set();updateBulkUI();renderMonth();
+    document.getElementById('slot-panel').style.display='none';
+  } catch(e){toast('Error saving — try again');}
   document.getElementById('saving-row').style.display='none';
 }
 
-async function clearDay() {
-  if(!selDate) return;
+async function clearSelectedDays(){
+  if(!selectedDates.size)return;
   document.querySelectorAll('.slot-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('note-in').value='';
   document.getElementById('note-field').style.display='none';
   document.getElementById('saving-row').style.display='flex';
+  const dates=[...selectedDates];
   try {
-    await api({action:'upsertAvailability', presenterId:presenter.id,
-      presenterName:presenter.name, date:selDate, slots:'[]', note:''});
-    delete avCache[selDate];
-    renderMonth();
-    toast('Cleared');
-  } catch(e){ toast('Error — try again'); }
+    await Promise.all(dates.map(date=>api({action:'upsertAvailability',presenterId:presenter.id,
+      presenterName:presenter.name,date,slots:'[]',note:''})));
+    dates.forEach(date=>delete avCache[date]);
+    toast(`Cleared ${dates.length} day${dates.length!==1?'s':''}`);
+    selectedDates=new Set();updateBulkUI();renderMonth();
+    document.getElementById('slot-panel').style.display='none';
+  } catch(e){toast('Error — try again');}
   document.getElementById('saving-row').style.display='none';
-  document.getElementById('slot-panel').style.display='none';
-  selDate=null;
 }
 
-function toast(msg) {
+function toast(msg){
   const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2200);
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
 }
-
-function showLoading(msg) {
-  document.getElementById('loading-msg').textContent=msg;
-  document.getElementById('loading-overlay').style.display='flex';
-}
-function hideLoading() { document.getElementById('loading-overlay').style.display='none'; }
+function showLoading(msg){document.getElementById('loading-msg').textContent=msg;document.getElementById('loading-overlay').style.display='flex';}
+function hideLoading(){document.getElementById('loading-overlay').style.display='none';}
 
 loadPresenters();
 </script>
