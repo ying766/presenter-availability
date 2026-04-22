@@ -199,6 +199,7 @@ textarea:focus{border-color:var(--accent-mid)}
         <button class="slot-btn" data-slot="evening" onclick="toggleSlot(this)">Evening (7–10)</button>
         <button class="slot-btn" data-slot="other" onclick="toggleSlot(this)">Other</button>
       </div>
+      <div style="font-size:.73rem;color:var(--muted);margin-bottom:.6rem" id="panel-tip">Select time slots then click <strong>Save</strong>, or click <strong>Clear day</strong> to remove availability.</div>
       <div class="note-field" id="note-field" style="display:none">
         <label>Note — describe your availability</label>
         <textarea id="note-in" placeholder="e.g. Available from 2pm onwards…"></textarea>
@@ -208,7 +209,7 @@ textarea:focus{border-color:var(--accent-mid)}
         <div style="flex:1"></div>
         <div class="panel-actions">
           <button class="btn btn-clr" id="btn-clr" onclick="clearSelectedDays()">Clear day</button>
-          <button class="btn btn-save" onclick="saveDays()">Save</button>
+          <button class="btn btn-save" id="btn-save" onclick="saveDays()">Save</button>
         </div>
       </div>
     </div>
