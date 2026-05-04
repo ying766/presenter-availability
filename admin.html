@@ -272,8 +272,21 @@ async function refreshData(){
 
 function renderBrandFilters(){
   const c=document.getElementById('brand-filters');
-  c.innerHTML=`<button class="chip ${brandFilter==='all'?'active':''}" onclick="setBrandFilter('all',this)">All</button>`+
-    allBrands.map(b=>`<button class="chip ${brandFilter===b?'active':''}" onclick="setBrandFilter(${JSON.stringify(b)},this)">${b}</button>`).join('');
+  c.innerHTML='';
+  // All button
+  const allBtn=document.createElement('button');
+  allBtn.className='chip'+(brandFilter==='all'?' active':'');
+  allBtn.textContent='All';
+  allBtn.onclick=()=>setBrandFilter('all',allBtn);
+  c.appendChild(allBtn);
+  // Brand buttons
+  allBrands.forEach(b=>{
+    const btn=document.createElement('button');
+    btn.className='chip'+(brandFilter===b?' active':'');
+    btn.textContent=b;
+    btn.onclick=()=>setBrandFilter(b,btn);
+    c.appendChild(btn);
+  });
 }
 
 function setBrandFilter(brand,btn){
