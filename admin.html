@@ -419,6 +419,8 @@ function renderAdminMonth(){
   const dateMap={};
   allAvailability.forEach(r=>{
     if(!r.date||!fids.has(String(r.presenterId)))return;
+    const slots=Array.isArray(r.slots)?r.slots:[];
+    if(slots.length===1&&slots[0]==='cleared') return; // skip cleared
     const dateStr=String(r.date).slice(0,10);
     const[y,m]=dateStr.split('-').map(Number);
     if(y===admY&&m-1===admM){
@@ -449,7 +451,7 @@ function openDayModal(ds,d){
   const dt=new Date(admY,admM,d);
   document.getElementById('modal-date-ttl').textContent=`${WDAYS[dt.getDay()]}, ${MONTHS[admM]} ${d}, ${admY}`;
   const fids=filteredPresenterIds();
-  const entries=allAvailability.filter(r=>String(r.date).slice(0,10)===ds&&fids.has(String(r.presenterId)));
+  const entries=allAvailability.filter(r=>String(r.date).slice(0,10)===ds&&fids.has(String(r.presenterId))&&!(Array.isArray(r.slots)&&r.slots.length===1&&r.slots[0]==='cleared'));
   if(!entries.length){
     document.getElementById('modal-body').innerHTML='<div class="empty-state">No availability logged for this day.</div>';
   } else {
