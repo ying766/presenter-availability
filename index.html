@@ -11,48 +11,46 @@
 :root{
   --bg:#FAFAF8;--surface:#FFFFFF;--border:#E8E4DE;--text:#1C1A18;
   --muted:#9A9590;--accent:#1D4B2F;--accent-light:#EBF3EE;--accent-mid:#2E7A4F;
-  --warn:#8B3A3A;--warn-light:#FDF0F0;--radius:10px;
+  --warn:#8B3A3A;--radius:10px;
 }
 body{font-family:'Lato',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
 header{padding:1.5rem 2rem;border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;gap:1rem}
 .logo-mark{width:32px;height:32px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .logo-mark svg{width:18px;height:18px;fill:none;stroke:white;stroke-width:2;stroke-linecap:round}
-header h1{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:400;letter-spacing:.01em}
+header h1{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:400}
 header p{color:var(--muted);font-size:.8rem;font-weight:300;margin-top:1px}
 main{flex:1;padding:2rem;max-width:820px;width:100%;margin:0 auto}
 
-/* Login */
 #login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:62vh}
 .login-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:100%;max-width:400px}
 .login-card h2{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;margin-bottom:.3rem}
-.login-card .sub{color:var(--muted);font-size:.83rem;font-weight:300;margin-bottom:2rem;line-height:1.5}
+.login-card .sub{color:var(--muted);font-size:.83rem;margin-bottom:2rem;line-height:1.5}
 label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem}
 .field{margin-bottom:1.25rem}
 select,input[type=text]{width:100%;padding:.7rem .9rem;border:1px solid var(--border);border-radius:var(--radius);font-family:'Lato',sans-serif;font-size:.93rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .15s;appearance:none}
 select:focus,input:focus{border-color:var(--accent-mid)}
 .select-wrap{position:relative}
 .select-wrap::after{content:'▾';position:absolute;right:.9rem;top:50%;transform:translateY(-60%);color:var(--muted);pointer-events:none;font-size:.75rem}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.7rem 1.4rem;border-radius:var(--radius);font-family:'Lato',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;border:none;transition:all .15s;letter-spacing:.03em}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:.7rem 1.4rem;border-radius:var(--radius);font-family:'Lato',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;border:none;transition:all .15s}
 .btn-primary{background:var(--accent);color:#fff;width:100%}
 .btn-primary:hover{background:#275c3a}
 .err{color:var(--warn);font-size:.8rem;margin-top:-.6rem;margin-bottom:.9rem}
 
-/* Calendar screen */
 #cal-screen{display:none}
 .toprow{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem}
 .presenter-badge{display:flex;align-items:center;gap:.75rem}
 .avatar{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700;flex-shrink:0}
 .p-name{font-weight:700;font-size:.95rem}
-.p-brands{font-size:.78rem;color:var(--muted);font-weight:300;margin-top:1px}
+.p-brands{font-size:.78rem;color:var(--muted);margin-top:1px}
 .btn-sm-ghost{background:none;border:1px solid var(--border);color:var(--muted);font-size:.78rem;padding:.38rem .8rem;border-radius:6px;cursor:pointer;font-family:'Lato',sans-serif;transition:all .15s}
 .btn-sm-ghost:hover{border-color:var(--accent-mid);color:var(--accent)}
+
 .month-nav{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem}
 .month-label{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;flex:1}
 .nav-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--text);transition:all .15s;flex-shrink:0}
 .nav-btn:hover{border-color:var(--accent-mid);color:var(--accent)}
 .nav-btn:disabled{opacity:.3;cursor:default}
 
-/* Bulk bar */
 .bulk-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.75rem}
 .bulk-hint{font-size:.75rem;color:var(--muted)}
 .bulk-hint strong{color:var(--accent-mid);font-weight:700}
@@ -61,19 +59,17 @@ select:focus,input:focus{border-color:var(--accent-mid)}
 .btn-bulk:hover{border-color:var(--accent-mid);color:var(--accent)}
 .sel-badge{font-size:.73rem;color:var(--accent);font-weight:700;background:var(--accent-light);padding:.2rem .65rem;border-radius:12px}
 
-/* Legend */
 .legend{display:flex;gap:1.25rem;flex-wrap:wrap;font-size:.75rem;color:var(--muted);margin-bottom:.75rem}
 .legend-item{display:flex;align-items:center;gap:.35rem}
 .ldot{width:10px;height:10px;border-radius:50%}
 .ldot.has{background:var(--accent-mid)}
 .ldot.sel{background:var(--accent)}
 
-/* Calendar */
 .cal-grid{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1.25rem;user-select:none;-webkit-user-select:none}
 .cal-wdays{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--border)}
 .cal-wday{padding:.55rem;text-align:center;font-size:.67rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .cal-days{display:grid;grid-template-columns:repeat(7,1fr)}
-.cal-day{min-height:72px;padding:.45rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;transition:background .08s;position:relative}
+.cal-day{min-height:72px;padding:.45rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;transition:background .08s}
 .cal-day:nth-child(7n){border-right:none}
 .cal-day.empty{cursor:default;background:var(--bg);opacity:.5;pointer-events:none}
 .cal-day.past{opacity:.35;cursor:default;pointer-events:none}
@@ -89,11 +85,11 @@ select:focus,input:focus{border-color:var(--accent-mid)}
 .sdot{width:5px;height:5px;border-radius:50%;background:var(--accent-mid)}
 .saved-lbl{font-size:.6rem;color:rgba(255,255,255,.75);margin-top:3px}
 
-/* Slot panel */
 .slot-panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;animation:fadeUp .18s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .panel-date{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;margin-bottom:.35rem}
-.panel-sub{font-size:.78rem;color:var(--muted);margin-bottom:1rem}
+.panel-sub{font-size:.78rem;color:var(--muted);margin-bottom:.75rem}
+.panel-tip{font-size:.73rem;color:var(--muted);margin-bottom:.75rem}
 .slots-row{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1rem}
 .slot-btn{padding:.5rem .95rem;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'Lato',sans-serif;font-size:.83rem;font-weight:400;cursor:pointer;transition:all .15s;color:var(--text)}
 .slot-btn:hover{border-color:var(--accent-mid)}
@@ -115,34 +111,21 @@ textarea:focus{border-color:var(--accent-mid)}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .loading-overlay{position:fixed;inset:0;background:rgba(250,250,248,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;z-index:500;font-size:.9rem;color:var(--muted)}
 .big-spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
-
 @media(max-width:520px){main{padding:1rem}.cal-day{min-height:52px}.slot-btn{font-size:.76rem;padding:.4rem .65rem}}
 </style>
 </head>
 <body>
 <header>
-  <div class="logo-mark">
-    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
-  </div>
-  <div>
-    <h1>Availability Scheduler</h1>
-    <p>Select your available dates for upcoming events</p>
-  </div>
+  <div class="logo-mark"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg></div>
+  <div><h1>Availability Scheduler</h1><p>Select your available dates for upcoming events</p></div>
 </header>
-
 <main>
   <div id="login-screen">
     <div class="login-card">
       <h2>Sign In</h2>
       <p class="sub">Select your name, then enter the last 4 digits of your phone number as your PIN.</p>
-      <div class="field">
-        <label>Your name</label>
-        <div class="select-wrap"><select id="name-sel"><option value="">Loading…</option></select></div>
-      </div>
-      <div class="field">
-        <label>PIN — last 4 digits of your phone</label>
-        <input type="text" id="pin-in" maxlength="4" placeholder="e.g. 5838" inputmode="numeric" autocomplete="off">
-      </div>
+      <div class="field"><label>Your name</label><div class="select-wrap"><select id="name-sel"><option value="">Loading…</option></select></div></div>
+      <div class="field"><label>PIN — last 4 digits of your phone</label><input type="text" id="pin-in" maxlength="4" placeholder="e.g. 5838" inputmode="numeric" autocomplete="off"></div>
       <div id="login-err" class="err" style="display:none">Incorrect PIN. Please try again.</div>
       <button class="btn btn-primary" onclick="doLogin()">Continue →</button>
     </div>
@@ -152,20 +135,15 @@ textarea:focus{border-color:var(--accent-mid)}
     <div class="toprow">
       <div class="presenter-badge">
         <div class="avatar" id="av-initials"></div>
-        <div>
-          <div class="p-name" id="disp-name"></div>
-          <div class="p-brands" id="disp-brands"></div>
-        </div>
+        <div><div class="p-name" id="disp-name"></div><div class="p-brands" id="disp-brands"></div></div>
       </div>
       <button class="btn-sm-ghost" onclick="signOut()">Sign out</button>
     </div>
-
     <div class="month-nav">
       <button class="nav-btn" id="prev-btn" onclick="changeMonth(-1)">◀</button>
       <div class="month-label" id="month-lbl"></div>
       <button class="nav-btn" onclick="changeMonth(1)">▶</button>
     </div>
-
     <div class="bulk-bar">
       <span class="bulk-hint">Click a date or <strong>drag</strong> to select multiple</span>
       <div class="bulk-btns">
@@ -175,12 +153,10 @@ textarea:focus{border-color:var(--accent-mid)}
         <button class="btn-bulk" id="btn-desel" style="display:none;color:var(--warn)" onclick="deselectAll()">Deselect all</button>
       </div>
     </div>
-
     <div class="legend">
       <div class="legend-item"><div class="ldot has"></div>Has availability</div>
       <div class="legend-item"><div class="ldot sel"></div>Selected</div>
     </div>
-
     <div class="cal-grid">
       <div class="cal-wdays">
         <div class="cal-wday">Mon</div><div class="cal-wday">Tue</div><div class="cal-wday">Wed</div>
@@ -188,7 +164,6 @@ textarea:focus{border-color:var(--accent-mid)}
       </div>
       <div class="cal-days" id="cal-days"></div>
     </div>
-
     <div id="slot-panel" class="slot-panel" style="display:none">
       <div class="panel-date" id="panel-date"></div>
       <div class="panel-sub" id="panel-sub"></div>
@@ -199,9 +174,9 @@ textarea:focus{border-color:var(--accent-mid)}
         <button class="slot-btn" data-slot="evening" onclick="toggleSlot(this)">Evening (7–10)</button>
         <button class="slot-btn" data-slot="other" onclick="toggleSlot(this)">Other</button>
       </div>
-      <div style="font-size:.73rem;color:var(--muted);margin-bottom:.6rem" id="panel-tip">Select time slots then click <strong>Save</strong>, or click <strong>Clear day</strong> to remove availability.</div>
+      <div class="panel-tip">Select time slots then click <strong>Save</strong>, or click <strong>Clear day</strong> to remove availability.</div>
       <div class="note-field" id="note-field" style="display:none">
-        <label>Note — describe your availability</label>
+        <label>Note</label>
         <textarea id="note-in" placeholder="e.g. Available from 2pm onwards…"></textarea>
       </div>
       <div class="panel-footer">
@@ -209,23 +184,19 @@ textarea:focus{border-color:var(--accent-mid)}
         <div style="flex:1"></div>
         <div class="panel-actions">
           <button class="btn btn-clr" id="btn-clr" onclick="clearSelectedDays()">Clear day</button>
-          <button class="btn btn-save" id="btn-save" onclick="saveDays()">Save</button>
+          <button class="btn btn-save" onclick="saveDays()">Save</button>
         </div>
       </div>
     </div>
   </div>
 </main>
-
 <div class="toast" id="toast"></div>
-<div class="loading-overlay" id="loading-overlay" style="display:none">
-  <div class="big-spinner"></div>
-  <span id="loading-msg">Loading…</span>
-</div>
+<div class="loading-overlay" id="loading-overlay" style="display:none"><div class="big-spinner"></div><span id="loading-msg">Loading…</span></div>
 
 <script src="config.js"></script>
 <script src="data.js"></script>
+<script src="db.js"></script>
 <script>
-const API_URL = window.APPS_SCRIPT_URL || '';
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const WDAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const MIN_Y=2026, MIN_M=4;
@@ -234,57 +205,17 @@ let presenter=null, avCache={}, viewY=2026, viewM=4, allPresenters=[];
 let selectedDates=new Set();
 let isDragging=false, dragStart=null, dragCurrent=null;
 
-// ── API ───────────────────────────────────────────────────
-async function api(params) {
-  if(!API_URL) return localApi(params);
-  try {
-    const r=await fetch(API_URL+'?'+new URLSearchParams(params),{redirect:'follow'});
-    return r.json();
-  } catch(e){console.error(e);throw e;}
-}
-
-function localApi(p) {
-  const S=k=>{const r=localStorage.getItem(k);return r?JSON.parse(r):[]};
-  const W=(k,d)=>localStorage.setItem(k,JSON.stringify(d));
-  if(p.action==='getPresenters'){let x=S('presenters');if(!x.length){x=INITIAL_PRESENTERS;W('presenters',x);}return x;}
-  if(p.action==='updatePresenter'){
-    const x=S('presenters'),i=x.findIndex(a=>String(a.id)===String(p.id));
-    if(i>=0){if(p.name)x[i].name=p.name;if(p.pin!==undefined)x[i].pin=p.pin;
-      if(p.brands!==undefined)x[i].brands=typeof p.brands==='string'?p.brands.split(',').map(b=>b.trim()).filter(Boolean):p.brands;
-      x[i].updatedAt=new Date().toISOString();W('presenters',x);}return{success:true};
-  }
-  if(p.action==='deletePresenter'){W('presenters',S('presenters').filter(a=>String(a.id)!==String(p.id)));W('availability',S('availability').filter(a=>String(a.presenterId)!==String(p.id)));return{success:true};}
-  if(p.action==='getAvailability'){let av=S('availability');if(p.presenterId)av=av.filter(a=>String(a.presenterId)===String(p.presenterId));return av;}
-  if(p.action==='getAllAvailability')return S('availability');
-  if(p.action==='upsertAvailability'){
-    let av=S('availability');
-    const slots=typeof p.slots==='string'?JSON.parse(p.slots):(p.slots||[]);
-    const i=av.findIndex(a=>String(a.presenterId)===String(p.presenterId)&&a.date===p.date);
-    if(i>=0){if(slots.length===0)av.splice(i,1);else av[i]={...av[i],slots,note:p.note||'',updatedAt:new Date().toISOString()};}
-    else if(slots.length>0)av.push({id:Date.now(),presenterId:p.presenterId,presenterName:p.presenterName,date:p.date,slots,note:p.note||'',updatedAt:new Date().toISOString()});
-    W('availability',av);return{success:true};
-  }
-  if(p.action==='getBrands'){let b=S('brands');if(!b.length){b=INITIAL_BRANDS;W('brands',b);}return b;}
-  if(p.action==='saveBrand'){const b=S('brands');if(!b.includes(p.name)){b.push(p.name);b.sort();W('brands',b);}return{success:true};}
-  if(p.action==='deleteBrand'){W('brands',S('brands').filter(x=>x!==p.name));return{success:true};}
-  return{error:'Unknown'};
-}
-
-// ── Login ─────────────────────────────────────────────────
 async function loadPresenters() {
   const sel=document.getElementById('name-sel');
   try {
-    allPresenters=await api({action:'getPresenters'});
+    allPresenters = await DB.getPresenters();
     allPresenters.sort((a,b)=>a.name.localeCompare(b.name));
     sel.innerHTML='<option value="">Select your name…</option>'+
-      allPresenters.map(p=>`<option value="${p.id}" data-pin="${String(p.pin)}">${p.name}</option>`).join('');
+      allPresenters.map(p=>`<option value="${p.id}" data-pin="${String(p.pin||'')}">${p.name}</option>`).join('');
+    // Auto-login from session
+    const savedId=sessionStorage.getItem('presenter_id');
+    if(savedId){const p=allPresenters.find(x=>String(x.id)===savedId);if(p){presenter=p;await enterCalendar();}}
   } catch(e){sel.innerHTML='<option value="">Error — check connection</option>';}
-  // Auto-login if session exists
-  const savedId = sessionStorage.getItem('presenter_id');
-  if (savedId && allPresenters.length) {
-    const p = allPresenters.find(x=>String(x.id)===String(savedId));
-    if (p) { presenter=p; await enterCalendar(); }
-  }
 }
 
 async function doLogin() {
@@ -292,14 +223,14 @@ async function doLogin() {
   const errEl=document.getElementById('login-err'),opt=sel.options[sel.selectedIndex];
   if(!sel.value){errEl.textContent='Please select your name.';errEl.style.display='block';return;}
   if(!pin){errEl.textContent='Please enter your PIN.';errEl.style.display='block';return;}
-  if(!opt.dataset.pin){errEl.textContent='No PIN set — contact your admin.';errEl.style.display='block';return;}
-  if(pin!==String(opt.dataset.pin)){errEl.style.display='block';errEl.textContent='Incorrect PIN. Please try again.';return;}
+  const storedPin=String(opt.dataset.pin||'');
+  if(!storedPin){errEl.textContent='No PIN set — contact your admin.';errEl.style.display='block';return;}
+  if(pin!==storedPin){errEl.style.display='block';errEl.textContent='Incorrect PIN. Please try again.';return;}
   errEl.style.display='none';
   presenter=allPresenters.find(x=>String(x.id)===sel.value);
-  sessionStorage.setItem('presenter_id', presenter.id);
+  sessionStorage.setItem('presenter_id',String(presenter.id));
   await enterCalendar();
 }
-
 document.getElementById('pin-in').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 
 async function enterCalendar() {
@@ -309,21 +240,21 @@ async function enterCalendar() {
   const initials=presenter.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
   document.getElementById('av-initials').textContent=initials;
   document.getElementById('disp-name').textContent=presenter.name;
-  const brands=Array.isArray(presenter.brands)?presenter.brands:[];
+  const brands=presenter.brands?presenter.brands.split('|').filter(Boolean):[];
   document.getElementById('disp-brands').textContent=brands.length?brands.join(', '):'No brand assigned';
-  const rows=await api({action:'getAvailability',presenterId:presenter.id});
+  const rows=await DB.getAvailability(presenter.id);
   avCache={};
   (Array.isArray(rows)?rows:[]).forEach(r=>{
-    const slots=Array.isArray(r.slots)?r.slots:(typeof r.slots==='string'?JSON.parse(r.slots||'[]'):[]);
-    if(slots.length===1&&slots[0]==='cleared') return; // skip cleared entries
-    const dateStr=String(r.date).slice(0,10);
-    avCache[dateStr]={slots,note:r.note||''};
+    const slots=typeof r.slots==='string'?JSON.parse(r.slots||'[]'):(r.slots||[]);
+    avCache[r.date]={slots,note:r.note||''};
   });
   hideLoading();
+  // Start from May 2026
+  viewY=2026;viewM=4;
   renderMonth();
 }
 
-function signOut() {
+function signOut(){
   presenter=null;avCache={};selectedDates=new Set();
   sessionStorage.removeItem('presenter_id');
   document.getElementById('slot-panel').style.display='none';
@@ -332,8 +263,7 @@ function signOut() {
   document.getElementById('pin-in').value='';
 }
 
-// ── Calendar ──────────────────────────────────────────────
-function changeMonth(dir) {
+function changeMonth(dir){
   viewM+=dir;
   if(viewM>11){viewM=0;viewY++;}if(viewM<0){viewM=11;viewY--;}
   if(viewY<MIN_Y||(viewY===MIN_Y&&viewM<MIN_M)){viewY=MIN_Y;viewM=MIN_M;}
@@ -342,9 +272,9 @@ function changeMonth(dir) {
   updateBulkUI();renderMonth();
 }
 
-function getDateStr(y,m,d){return`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
+function getDS(y,m,d){return`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
 
-function getDragRange(a,b) {
+function getDragRange(a,b){
   const result=new Set();
   const today=new Date();today.setHours(0,0,0,0);
   let d1=new Date(a),d2=new Date(b);
@@ -352,13 +282,13 @@ function getDragRange(a,b) {
   const cur=new Date(d1);
   while(cur<=d2){
     if(cur>=today&&cur.getFullYear()===viewY&&cur.getMonth()===viewM)
-      result.add(getDateStr(cur.getFullYear(),cur.getMonth(),cur.getDate()));
+      result.add(getDS(cur.getFullYear(),cur.getMonth(),cur.getDate()));
     cur.setDate(cur.getDate()+1);
   }
   return result;
 }
 
-function renderMonth() {
+function renderMonth(){
   document.getElementById('month-lbl').textContent=`${MONTHS[viewM]} ${viewY}`;
   document.getElementById('prev-btn').disabled=(viewY===MIN_Y&&viewM===MIN_M);
   const firstDay=new Date(viewY,viewM,1).getDay();
@@ -366,25 +296,17 @@ function renderMonth() {
   const dim=new Date(viewY,viewM+1,0).getDate();
   const today=new Date();today.setHours(0,0,0,0);
   const dragRange=isDragging&&dragStart&&dragCurrent?getDragRange(dragStart,dragCurrent):new Set();
-
   let html='';
   for(let i=0;i<offset;i++)html+='<div class="cal-day empty"></div>';
   for(let d=1;d<=dim;d++){
-    const ds=getDateStr(viewY,viewM,d);
+    const ds=getDS(viewY,viewM,d);
     const dt=new Date(viewY,viewM,d);
     const isPast=dt<today,isToday=dt.getTime()===today.getTime();
     const hasSl=(avCache[ds]?.slots?.length>0);
-    const isSel=selectedDates.has(ds);
-    const inDrag=dragRange.has(ds);
-
+    const isSel=selectedDates.has(ds),inDrag=dragRange.has(ds);
     let cls='cal-day';
     if(isPast)cls+=' past';
-    else{
-      if(isToday)cls+=' today';
-      if(isSel)cls+=' selected';
-      else if(inDrag)cls+=' dragging';
-      else if(hasSl)cls+=' has-slots';
-    }
+    else{if(isToday)cls+=' today';if(isSel)cls+=' selected';else if(inDrag)cls+=' dragging';else if(hasSl)cls+=' has-slots';}
     const dots=hasSl&&!isSel?`<div class="slot-dots">${avCache[ds].slots.map(()=>'<div class="sdot"></div>').join('')}</div>`:'';
     const savedLbl=hasSl&&isSel?'<div class="saved-lbl">✓ saved</div>':'';
     html+=`<div class="${cls}" data-date="${ds}"><div class="day-num">${d}</div>${dots}${savedLbl}</div>`;
@@ -394,14 +316,11 @@ function renderMonth() {
   bindCalEvents(container);
 }
 
-function bindCalEvents(container) {
-  // Mouse
+function bindCalEvents(container){
   container.onmousedown=e=>{
     const day=e.target.closest('.cal-day:not(.empty):not(.past)');
-    if(!day)return;
-    e.preventDefault();
-    isDragging=true;dragStart=day.dataset.date;dragCurrent=day.dataset.date;
-    renderMonth();
+    if(!day)return;e.preventDefault();
+    isDragging=true;dragStart=day.dataset.date;dragCurrent=day.dataset.date;renderMonth();
   };
   container.onmousemove=e=>{
     if(!isDragging)return;
@@ -409,54 +328,39 @@ function bindCalEvents(container) {
     if(day&&day.dataset.date!==dragCurrent){dragCurrent=day.dataset.date;renderMonth();}
   };
   document.onmouseup=e=>{
-    if(!isDragging)return;
-    isDragging=false;
+    if(!isDragging)return;isDragging=false;
     if(dragStart){
       const range=getDragRange(dragStart,dragCurrent||dragStart);
       const allSel=[...range].every(d=>selectedDates.has(d));
       if(allSel&&range.size>0)range.forEach(d=>selectedDates.delete(d));
       else range.forEach(d=>selectedDates.add(d));
     }
-    dragStart=null;dragCurrent=null;
-    updateBulkUI();renderMonth();
+    dragStart=null;dragCurrent=null;updateBulkUI();renderMonth();
     if(selectedDates.size>0)openPanel();
   };
-  // Touch
   container.ontouchstart=e=>{
     const day=e.target.closest('.cal-day:not(.empty):not(.past)');
-    if(!day)return;
-    isDragging=true;dragStart=day.dataset.date;dragCurrent=day.dataset.date;
+    if(!day)return;isDragging=true;dragStart=day.dataset.date;dragCurrent=day.dataset.date;
   };
   container.ontouchmove=e=>{
-    if(!isDragging)return;
-    e.preventDefault();
-    const t=e.touches[0];
-    const el=document.elementFromPoint(t.clientX,t.clientY);
+    if(!isDragging)return;e.preventDefault();
+    const t=e.touches[0],el=document.elementFromPoint(t.clientX,t.clientY);
     const day=el?.closest('.cal-day:not(.empty):not(.past)');
     if(day&&day.dataset.date!==dragCurrent){dragCurrent=day.dataset.date;renderMonth();}
   },{passive:false};
   container.ontouchend=e=>{
-    if(!isDragging)return;
-    isDragging=false;
-    if(dragStart){
-      const range=getDragRange(dragStart,dragCurrent||dragStart);
-      range.forEach(d=>selectedDates.add(d));
-    }
-    dragStart=null;dragCurrent=null;
-    updateBulkUI();renderMonth();
+    if(!isDragging)return;isDragging=false;
+    if(dragStart){getDragRange(dragStart,dragCurrent||dragStart).forEach(d=>selectedDates.add(d));}
+    dragStart=null;dragCurrent=null;updateBulkUI();renderMonth();
     if(selectedDates.size>0)openPanel();
   };
 }
 
-// ── Bulk helpers ──────────────────────────────────────────
 function selectWholeMonth(){
   const today=new Date();today.setHours(0,0,0,0);
   const dim=new Date(viewY,viewM+1,0).getDate();
   selectedDates=new Set();
-  for(let d=1;d<=dim;d++){
-    const dt=new Date(viewY,viewM,d);
-    if(dt>=today)selectedDates.add(getDateStr(viewY,viewM,d));
-  }
+  for(let d=1;d<=dim;d++){const dt=new Date(viewY,viewM,d);if(dt>=today)selectedDates.add(getDS(viewY,viewM,d));}
   updateBulkUI();renderMonth();if(selectedDates.size>0)openPanel();
 }
 
@@ -464,44 +368,25 @@ function selectWeekdays(){
   const today=new Date();today.setHours(0,0,0,0);
   const dim=new Date(viewY,viewM+1,0).getDate();
   selectedDates=new Set();
-  for(let d=1;d<=dim;d++){
-    const dt=new Date(viewY,viewM,d);
-    if(dt>=today&&dt.getDay()!==0&&dt.getDay()!==6)selectedDates.add(getDateStr(viewY,viewM,d));
-  }
+  for(let d=1;d<=dim;d++){const dt=new Date(viewY,viewM,d);if(dt>=today&&dt.getDay()!==0&&dt.getDay()!==6)selectedDates.add(getDS(viewY,viewM,d));}
   updateBulkUI();renderMonth();if(selectedDates.size>0)openPanel();
 }
 
-function deselectAll(){
-  selectedDates=new Set();updateBulkUI();renderMonth();
-  document.getElementById('slot-panel').style.display='none';
-}
+function deselectAll(){selectedDates=new Set();updateBulkUI();renderMonth();document.getElementById('slot-panel').style.display='none';}
 
 function updateBulkUI(){
   const n=selectedDates.size;
-  const wrap=document.getElementById('sel-badge-wrap');
-  const desel=document.getElementById('btn-desel');
-  wrap.innerHTML=n>0?`<span class="sel-badge">${n} day${n!==1?'s':''} selected</span>`:'';
-  desel.style.display=n>0?'inline':'none';
+  document.getElementById('sel-badge-wrap').innerHTML=n>0?`<span class="sel-badge">${n} day${n!==1?'s':''} selected</span>`:'';
+  document.getElementById('btn-desel').style.display=n>0?'inline':'none';
 }
 
-// ── Slot panel ────────────────────────────────────────────
 function openPanel(){
-  const sorted=[...selectedDates].sort();
-  const n=sorted.length;
+  const sorted=[...selectedDates].sort(),n=sorted.length;
   let dateLabel='';
-  if(n===1){
-    const[y,m,d]=sorted[0].split('-').map(Number);
-    const dt=new Date(y,m-1,d);
-    dateLabel=`${WDAYS[dt.getDay()]}, ${MONTHS[m-1]} ${d}, ${y}`;
-  } else {
-    const[,fm,fd]=sorted[0].split('-').map(Number);
-    const[,lm,ld]=sorted[n-1].split('-').map(Number);
-    dateLabel=`${MONTHS[fm-1]} ${fd} – ${MONTHS[lm-1]} ${ld}, ${viewY}`;
-  }
+  if(n===1){const[y,m,d]=sorted[0].split('-').map(Number);const dt=new Date(y,m-1,d);dateLabel=`${WDAYS[dt.getDay()]}, ${MONTHS[m-1]} ${d}, ${y}`;}
+  else{const[,fm,fd]=sorted[0].split('-').map(Number);const[,lm,ld]=sorted[n-1].split('-').map(Number);dateLabel=`${MONTHS[fm-1]} ${fd} – ${MONTHS[lm-1]} ${ld}, ${viewY}`;}
   document.getElementById('panel-date').textContent=dateLabel;
   document.getElementById('panel-sub').textContent=n>1?`Applying to ${n} days — all will get the same time slots`:'';
-
-  // Load existing for single date
   if(n===1){
     const cur=avCache[sorted[0]]||{slots:[],note:''};
     document.querySelectorAll('.slot-btn').forEach(b=>b.classList.toggle('active',cur.slots.includes(b.dataset.slot)));
@@ -509,8 +394,7 @@ function openPanel(){
     document.getElementById('note-field').style.display=cur.slots.includes('other')?'block':'none';
   } else {
     document.querySelectorAll('.slot-btn').forEach(b=>b.classList.remove('active'));
-    document.getElementById('note-in').value='';
-    document.getElementById('note-field').style.display='none';
+    document.getElementById('note-in').value='';document.getElementById('note-field').style.display='none';
   }
   document.getElementById('btn-clr').textContent=n>1?`Clear ${n} days`:'Clear day';
   document.getElementById('saving-row').style.display='none';
@@ -520,16 +404,9 @@ function openPanel(){
 
 function toggleSlot(btn){
   const slot=btn.dataset.slot;
-  if(slot==='allday'){
-    const was=btn.classList.contains('active');
-    document.querySelectorAll('.slot-btn').forEach(b=>b.classList.remove('active'));
-    if(!was)btn.classList.add('active');
-  } else {
-    document.querySelector('[data-slot="allday"]').classList.remove('active');
-    btn.classList.toggle('active');
-  }
-  document.getElementById('note-field').style.display=
-    document.querySelector('[data-slot="other"]').classList.contains('active')?'block':'none';
+  if(slot==='allday'){const was=btn.classList.contains('active');document.querySelectorAll('.slot-btn').forEach(b=>b.classList.remove('active'));if(!was)btn.classList.add('active');}
+  else{document.querySelector('[data-slot="allday"]').classList.remove('active');btn.classList.toggle('active');}
+  document.getElementById('note-field').style.display=document.querySelector('[data-slot="other"]').classList.contains('active')?'block':'none';
 }
 
 async function saveDays(){
@@ -539,10 +416,11 @@ async function saveDays(){
   if(!slots.length){toast('Please select at least one time slot');return;}
   document.getElementById('saving-row').style.display='flex';
   const dates=[...selectedDates];
-  try {
-    await Promise.all(dates.map(date=>api({action:'upsertAvailability',presenterId:presenter.id,
-      presenterName:presenter.name,date,slots:JSON.stringify(slots),note})));
-    dates.forEach(date=>{avCache[date]={slots,note};});
+  try{
+    for(const date of dates){
+      await DB.upsertAvailability(presenter.id,presenter.name,date,slots,note);
+      avCache[date]={slots,note};
+    }
     toast(`Saved ${dates.length} day${dates.length!==1?'s':''} ✓`);
     selectedDates=new Set();updateBulkUI();renderMonth();
     document.getElementById('slot-panel').style.display='none';
@@ -553,14 +431,14 @@ async function saveDays(){
 async function clearSelectedDays(){
   if(!selectedDates.size)return;
   document.querySelectorAll('.slot-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('note-in').value='';
-  document.getElementById('note-field').style.display='none';
+  document.getElementById('note-in').value='';document.getElementById('note-field').style.display='none';
   document.getElementById('saving-row').style.display='flex';
   const dates=[...selectedDates];
-  try {
-    await Promise.all(dates.map(date=>api({action:'upsertAvailability',presenterId:presenter.id,
-      presenterName:presenter.name,date,slots:'["cleared"]',note:''})));
-    dates.forEach(date=>delete avCache[date]);
+  try{
+    for(const date of dates){
+      await DB.upsertAvailability(presenter.id,presenter.name,date,[],null);
+      delete avCache[date];
+    }
     toast(`Cleared ${dates.length} day${dates.length!==1?'s':''}`);
     selectedDates=new Set();updateBulkUI();renderMonth();
     document.getElementById('slot-panel').style.display='none';
@@ -568,11 +446,7 @@ async function clearSelectedDays(){
   document.getElementById('saving-row').style.display='none';
 }
 
-function toast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
-}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 function showLoading(msg){document.getElementById('loading-msg').textContent=msg;document.getElementById('loading-overlay').style.display='flex';}
 function hideLoading(){document.getElementById('loading-overlay').style.display='none';}
 

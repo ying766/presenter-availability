@@ -1,2 +1,3 @@
-window.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzolOOs-xbQl8SKlpzQeraD8gpFqzVY20tN0rw2lYtR6J5YFijYd5kzpORvg1FLTS6l/exec';
+window.SUPABASE_URL = 'https://iqikzuxdpviyqpcpwlxe.supabase.co';
+window.SUPABASE_KEY = 'sb_publishable_ONg8nCcUqSyOXzEe6e0Bug_AGZ9QDzj';
 window.ADMIN_PASSWORD = '000727';
