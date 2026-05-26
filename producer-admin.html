@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Producer Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e10; --surface: #18181c; --surface2: #222228;
+    --border: #2e2e38; --text: #f0eff4; --muted: #6e6d7a;
+    --accent: #c8f060; --accent-dim: rgba(200,240,96,0.12);
+    --premium: #f0a060; --premium-dim: rgba(240,160,96,0.12);
+    --radius: 10px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* Login */
+  #admin-login {
+    min-height: 100vh; display: flex;
+    align-items: center; justify-content: center;
+  }
+  .login-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 2.25rem;
+    width: 340px; display: flex; flex-direction: column; gap: 1.1rem;
+  }
+  .login-card h1 { font-size: 1.25rem; font-weight: 700; }
+  .login-card p { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); margin-top: -0.5rem; }
+  .field-label {
+    font-family: 'DM Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); display: block; margin-bottom: 0.4rem;
+  }
+  input[type="password"], input[type="text"] {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 7px; color: var(--text); font-family: 'Syne', sans-serif;
+    font-size: 0.88rem; padding: 0.62rem 0.85rem; outline: none; transition: border-color 0.15s;
+  }
+  input:focus { border-color: var(--accent); }
+  .login-err {
+    font-family: 'DM Mono', monospace; font-size: 0.72rem; color: #f06060;
+    display: none; padding: 0.4rem 0.7rem;
+    background: rgba(240,96,96,0.08); border-radius: 6px;
+  }
+  .btn-primary {
+    width: 100%; background: var(--accent); color: #0e0e10;
+    font-family: 'Syne', sans-serif; font-size: 0.88rem; font-weight: 700;
+    border: none; border-radius: 7px; padding: 0.72rem; cursor: pointer; transition: opacity 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+
+  /* App */
+  #admin-app { display: none; }
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.9rem 2rem; border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; background: var(--bg); z-index: 50;
+  }
+  .logo { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
+  .logo span { color: var(--accent); }
+  .topbar-right { display: flex; gap: 0.5rem; align-items: center; }
+  .tab-btns { display: flex; gap: 0.2rem; }
+  .tab-btn {
+    font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    padding: 0.38rem 0.85rem; border-radius: 6px;
+    border: 1px solid transparent; cursor: pointer;
+    background: none; color: var(--muted); transition: all 0.15s;
+  }
+  .tab-btn.active { background: var(--surface); border-color: var(--border); color: var(--text); }
+  .btn-sm {
+    font-family: 'DM Mono', monospace; font-size: 0.7rem;
+    padding: 0.32rem 0.8rem; border-radius: 6px; cursor: pointer;
+    border: 1px solid var(--border); background: none; color: var(--muted); transition: all 0.15s;
+  }
+  .btn-sm:hover { color: var(--text); border-color: var(--muted); }
+  .btn-sm.accent { background: var(--accent); color: #0e0e10; border-color: var(--accent); font-weight: 600; }
+  .btn-sm.accent:hover { opacity: 0.85; }
+
+  .content { padding: 1.75rem 2rem; max-width: 1100px; margin: 0 auto; }
+
+  /* Calendar */
+  .cal-top {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;
+  }
+  .month-nav { display: flex; align-items: center; gap: 0.65rem; }
+  .month-label { font-size: 1.05rem; font-weight: 700; }
+  .nav-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); width: 30px; height: 30px; border-radius: 6px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 0.95rem; transition: border-color 0.15s;
+  }
+  .nav-btn:hover { border-color: var(--accent); }
+
+  .filters { display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: center; }
+  .filter-label { font-family: 'DM Mono', monospace; font-size: 0.67rem; color: var(--muted); margin-right: 0.2rem; }
+  .filter-btn {
+    font-family: 'DM Mono', monospace; font-size: 0.68rem;
+    padding: 0.27rem 0.7rem; border-radius: 20px;
+    border: 1px solid var(--border); background: none; color: var(--muted);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .filter-btn:hover { border-color: var(--muted); color: var(--text); }
+  .filter-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+  .filter-btn.prem-active { background: var(--premium-dim); border-color: var(--premium); color: var(--premium); }
+
+  .admin-cal-grid {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
+  }
+  .cal-dow {
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-align: center; padding: 0.35rem 0;
+  }
+  .admin-day {
+    min-height: 82px; border-radius: 7px;
+    border: 1px solid var(--border); padding: 0.45rem;
+    background: var(--surface); cursor: pointer; transition: border-color 0.15s;
+  }
+  .admin-day:hover:not(.empty) { border-color: rgba(200,240,96,0.3); }
+  .admin-day.empty { background: transparent; border-color: transparent; cursor: default; }
+  .admin-day.past { opacity: 0.35; }
+  .admin-day.today { border-color: rgba(200,240,96,0.4); }
+  .admin-day-num {
+    font-family: 'DM Mono', monospace; font-size: 0.68rem;
+    color: var(--muted); margin-bottom: 0.3rem; font-weight: 300;
+  }
+  .admin-day.today .admin-day-num { color: var(--accent); font-weight: 500; }
+  .producer-chips { display: flex; flex-direction: column; gap: 2px; }
+  .p-chip {
+    font-family: 'DM Mono', monospace; font-size: 0.58rem;
+    padding: 0.12rem 0.35rem; border-radius: 3px;
+    background: var(--accent-dim); color: var(--accent);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .p-chip.premium { background: var(--premium-dim); color: var(--premium); }
+  .more-chip { font-family: 'DM Mono', monospace; font-size: 0.57rem; color: var(--muted); padding: 0 0.35rem; }
+
+  /* Day modal */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55); z-index: 100;
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.6rem;
+    width: 460px; max-width: 95vw; max-height: 85vh; overflow-y: auto;
+    animation: fadeIn 0.2s ease;
+  }
+  @keyframes fadeIn { from { opacity:0; transform:scale(0.97); } to { opacity:1; transform:scale(1); } }
+  .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.1rem; }
+  .modal-date { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+  .modal-close { background: none; border: none; color: var(--muted); font-size: 1.1rem; cursor: pointer; transition: color 0.15s; padding: 0 0.2rem; }
+  .modal-close:hover { color: var(--text); }
+  .modal-row {
+    padding: 0.7rem 0; border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 0.75rem;
+  }
+  .modal-row:last-child { border-bottom: none; }
+  .modal-name { font-size: 0.88rem; font-weight: 600; display: flex; align-items: center; gap: 0.4rem; }
+  .prem-star { color: var(--premium); font-size: 0.72rem; }
+  .modal-slots { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.22rem; }
+  .slot-tag {
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    padding: 0.12rem 0.45rem; border-radius: 3px;
+    background: var(--accent-dim); color: var(--accent);
+  }
+  .slot-tag.premium { background: var(--premium-dim); color: var(--premium); }
+  .modal-empty { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--muted); text-align: center; padding: 1.5rem 0; }
+
+  /* Producers tab */
+  .section-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.1rem; }
+  .section-title { font-size: 1.05rem; font-weight: 700; }
+  .producers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 0.65rem; }
+  .prod-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 0.9rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: border-color 0.15s;
+  }
+  .prod-card.is-premium { border-color: rgba(240,160,96,0.3); }
+  .prod-card:hover { border-color: rgba(200,240,96,0.2); }
+  .prod-card.is-premium:hover { border-color: rgba(240,160,96,0.5); }
+  .pc-name { font-size: 0.88rem; font-weight: 600; display: flex; align-items: center; gap: 0.45rem; }
+  .pc-pin { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted); margin-top: 0.18rem; }
+  .pc-actions { display: flex; gap: 0.35rem; align-items: center; }
+  .prem-btn {
+    font-family: 'DM Mono', monospace; font-size: 0.67rem;
+    padding: 0.22rem 0.55rem; border-radius: 4px; cursor: pointer;
+    border: 1px solid var(--border); background: none; color: var(--muted);
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .prem-btn:hover { border-color: var(--premium); color: var(--premium); }
+  .prem-btn.active { background: var(--premium-dim); border-color: var(--premium); color: var(--premium); }
+  .del-btn {
+    background: none; border: 1px solid transparent; color: var(--muted);
+    font-size: 0.82rem; cursor: pointer; padding: 0.22rem 0.42rem; border-radius: 5px; transition: all 0.15s;
+  }
+  .del-btn:hover { background: rgba(240,96,96,0.1); color: #f06060; border-color: rgba(240,96,96,0.3); }
+
+  /* Add modal */
+  .add-modal {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.6rem;
+    width: 380px; max-width: 95vw;
+    display: flex; flex-direction: column; gap: 1rem;
+    animation: fadeIn 0.2s ease;
+  }
+  .add-modal h2 { font-size: 0.95rem; font-weight: 700; }
+  .check-row {
+    display: flex; align-items: center; gap: 0.55rem;
+    cursor: pointer; user-select: none; font-size: 0.85rem;
+  }
+  .check-row input[type="checkbox"] { accent-color: var(--premium); width: 14px; height: 14px; }
+
+  .toast {
+    position: fixed; bottom: 1.75rem; left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); font-family: 'DM Mono', monospace;
+    font-size: 0.75rem; padding: 0.58rem 1.15rem;
+    border-radius: 8px; opacity: 0; pointer-events: none;
+    transition: all 0.25s; white-space: nowrap; z-index: 999;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.success { border-color: rgba(200,240,96,0.4); color: var(--accent); }
+  .spinner { width:15px;height:15px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;vertical-align:middle; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- ADMIN LOGIN -->
+<div id="admin-login">
+  <div class="login-card">
+    <div>
+      <h1>Producer Admin</h1>
+      <p>Availability dashboard</p>
+    </div>
+    <div>
+      <label class="field-label">Password</label>
+      <input type="password" id="admin-pw" placeholder="Enter admin password" autocomplete="off">
+    </div>
+    <div id="admin-err" class="login-err">Incorrect password.</div>
+    <button class="btn-primary" onclick="adminLogin()">Enter →</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="admin-app">
+  <div class="topbar">
+    <div class="logo">Producer <span>Admin</span></div>
+    <div class="topbar-right">
+      <div class="tab-btns">
+        <button class="tab-btn active" id="tb-cal" onclick="switchTab('calendar')">Calendar</button>
+        <button class="tab-btn" id="tb-prod" onclick="switchTab('producers')">Producers</button>
+      </div>
+      <button class="btn-sm" onclick="adminLogout()">Sign out</button>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- Calendar tab -->
+    <div id="tab-calendar">
+      <div class="cal-top">
+        <div class="month-nav">
+          <button class="nav-btn" onclick="changeMonth(-1)">‹</button>
+          <div class="month-label" id="admin-month-label"></div>
+          <button class="nav-btn" onclick="changeMonth(1)">›</button>
+        </div>
+        <div class="filters">
+          <span class="filter-label">Filter:</span>
+          <button class="filter-btn active" data-f="all" onclick="setFilter('all')">All</button>
+          <button class="filter-btn" data-f="premium" onclick="setFilter('premium')">★ Premium</button>
+          <button class="filter-btn" data-f="allday" onclick="setFilter('allday')">All Day</button>
+          <button class="filter-btn" data-f="afternoon" onclick="setFilter('afternoon')">Afternoon</button>
+          <button class="filter-btn" data-f="evening" onclick="setFilter('evening')">Evening</button>
+          <button class="filter-btn" data-f="other" onclick="setFilter('other')">Other</button>
+        </div>
+      </div>
+      <div class="admin-cal-grid" id="admin-cal-grid"></div>
+    </div>
+
+    <!-- Producers tab -->
+    <div id="tab-producers" style="display:none">
+      <div class="section-top">
+        <div class="section-title">Producers</div>
+        <button class="btn-sm accent" onclick="openAddModal()">+ Add producer</button>
+      </div>
+      <div class="producers-grid" id="producers-grid"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Day modal -->
+<div class="modal-overlay" id="day-modal" onclick="closeDayModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-date" id="modal-date-lbl"></div>
+      <button class="modal-close" onclick="closeDayModal()">✕</button>
+    </div>
+    <div id="modal-list"></div>
+  </div>
+</div>
+
+<!-- Add producer modal -->
+<div class="modal-overlay" id="add-modal" onclick="closeAddModal(event)">
+  <div class="add-modal">
+    <h2>Add Producer</h2>
+    <div>
+      <label class="field-label">Name</label>
+      <input type="text" id="new-name" placeholder="Full name">
+    </div>
+    <div>
+      <label class="field-label">PIN (last 4 digits of phone)</label>
+      <input type="text" id="new-pin" placeholder="e.g. 4383" maxlength="10">
+    </div>
+    <label class="check-row">
+      <input type="checkbox" id="new-premium"> Mark as Premium producer
+    </label>
+    <div style="display:flex;gap:0.55rem">
+      <button class="btn-sm" onclick="closeAddModal()" style="flex:1;padding:0.6rem">Cancel</button>
+      <button class="btn-sm accent" onclick="addProducer()" style="flex:2;padding:0.6rem" id="add-btn">Add Producer</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ADMIN_PASSWORD = '000727'; // ← change this
+const SUPABASE_URL = 'https://xhaemzuxuztaxczqxkuw.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_i449mmgQVOunGAAedwmh3w_bEQWC2yR';
+
+const SB = {
+  h: (prefer = 'return=representation') => ({
+    'Content-Type': 'application/json',
+    'apikey': SUPABASE_KEY,
+    'Authorization': `Bearer ${SUPABASE_KEY}`,
+    'Prefer': prefer
+  }),
+  async get(table, qs = '') {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${qs}`, { headers: SB.h() });
+    if (!r.ok) throw new Error(await r.text());
+    return r.json();
+  },
+  async post(table, body) {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+      method: 'POST', headers: SB.h(), body: JSON.stringify(body)
+    });
+    if (!r.ok) throw new Error(await r.text());
+    return r.json();
+  },
+  async patch(table, qs, body) {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${qs}`, {
+      method: 'PATCH', headers: SB.h(), body: JSON.stringify(body)
+    });
+    if (!r.ok) throw new Error(await r.text());
+    return r.json();
+  },
+  async del(table, qs) {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${qs}`, {
+      method: 'DELETE', headers: SB.h('return=minimal')
+    });
+    if (!r.ok) throw new Error(await r.text());
+  }
+};
+
+let allProducers = [], allAvail = [], viewYear, viewMonth, activeFilter = 'all';
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DOWS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const SLOT_LABELS = { allday:'All Day', afternoon:'Afternoon', evening:'Evening', other:'Other' };
+
+// ── Auth ──────────────────────────────────────────────────
+function adminLogin() {
+  const pw = document.getElementById('admin-pw').value;
+  if (pw !== ADMIN_PASSWORD) { document.getElementById('admin-err').style.display = 'block'; return; }
+  sessionStorage.setItem('prod_admin', '1');
+  document.getElementById('admin-err').style.display = 'none';
+  launchApp();
+}
+function adminLogout() {
+  sessionStorage.removeItem('prod_admin');
+  document.getElementById('admin-app').style.display = 'none';
+  document.getElementById('admin-login').style.display = 'flex';
+  document.getElementById('admin-pw').value = '';
+}
+document.getElementById('admin-pw').addEventListener('keydown', e => { if (e.key === 'Enter') adminLogin(); });
+
+window.addEventListener('DOMContentLoaded', () => {
+  const now = new Date(); viewYear = now.getFullYear(); viewMonth = now.getMonth();
+  if (sessionStorage.getItem('prod_admin') === '1') launchApp();
+});
+
+async function launchApp() {
+  document.getElementById('admin-login').style.display = 'none';
+  document.getElementById('admin-app').style.display = 'block';
+  await refreshData();
+  renderCalendar();
+  renderProducers();
+}
+
+async function refreshData() {
+  try {
+    [allProducers, allAvail] = await Promise.all([
+      SB.get('producers', 'order=name&select=id,name,pin,premium'),
+      SB.get('producer_availability', 'select=id,producer_id,producer_name,date,slots&limit=2000')
+    ]);
+  } catch(e) { console.error('Data load failed', e); }
+}
+
+// ── Calendar ──────────────────────────────────────────────
+function changeMonth(dir) {
+  viewMonth += dir;
+  if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+  if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+  renderCalendar();
+}
+
+function setFilter(f) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.remove('active', 'prem-active');
+    if (b.dataset.f === f) b.classList.add(f === 'premium' ? 'prem-active' : 'active');
+  });
+  renderCalendar();
+}
+
+function getProducer(id) { return allProducers.find(p => String(p.id) === String(id)); }
+
+function renderCalendar() {
+  const first = new Date(viewYear, viewMonth, 1);
+  const last = new Date(viewYear, viewMonth + 1, 0);
+  const today = new Date(); today.setHours(0,0,0,0);
+  document.getElementById('admin-month-label').textContent = `${MONTHS[viewMonth]} ${viewYear}`;
+  const grid = document.getElementById('admin-cal-grid');
+  grid.innerHTML = DOWS.map(d => `<div class="cal-dow">${d}</div>`).join('');
+  for (let i = 0; i < first.getDay(); i++) grid.innerHTML += `<div class="admin-day empty"></div>`;
+
+  for (let d = 1; d <= last.getDate(); d++) {
+    const ds = `${viewYear}-${String(viewMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const date = new Date(viewYear, viewMonth, d);
+    const isPast = date < today, isToday = date.getTime() === today.getTime();
+
+    let rows = allAvail.filter(r => r.date?.startsWith(ds));
+    if (activeFilter === 'premium') rows = rows.filter(r => getProducer(r.producer_id)?.premium);
+    else if (activeFilter !== 'all') rows = rows.filter(r => (r.slots||'').split(',').includes(activeFilter));
+
+    let cls = 'admin-day';
+    if (isPast) cls += ' past';
+    if (isToday) cls += ' today';
+
+    const MAX = 3;
+    const chips = rows.slice(0, MAX).map(r => {
+      const p = getProducer(r.producer_id);
+      return `<div class="p-chip${p?.premium?' premium':''}">${p?.name || r.producer_name}</div>`;
+    }).join('');
+    const extra = rows.length > MAX ? `<div class="more-chip">+${rows.length - MAX} more</div>` : '';
+
+    grid.innerHTML += `<div class="${cls}" onclick="openDayModal('${ds}')">
+      <div class="admin-day-num">${d}</div>
+      <div class="producer-chips">${chips}${extra}</div>
+    </div>`;
+  }
+}
+
+// ── Day Modal ─────────────────────────────────────────────
+function openDayModal(ds) {
+  const [y,m,d] = ds.split('-').map(Number);
+  const label = new Date(y,m-1,d).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('modal-date-lbl').textContent = label;
+
+  let rows = allAvail.filter(r => r.date?.startsWith(ds));
+  if (activeFilter === 'premium') rows = rows.filter(r => getProducer(r.producer_id)?.premium);
+  else if (activeFilter !== 'all') rows = rows.filter(r => (r.slots||'').split(',').includes(activeFilter));
+
+  // Premium first
+  rows.sort((a,b) => (getProducer(b.producer_id)?.premium ? 1 : 0) - (getProducer(a.producer_id)?.premium ? 1 : 0));
+
+  const list = document.getElementById('modal-list');
+  if (!rows.length) {
+    list.innerHTML = `<div class="modal-empty">No producers available on this day</div>`;
+  } else {
+    list.innerHTML = rows.map(r => {
+      const p = getProducer(r.producer_id);
+      const isPrem = p?.premium;
+      const slots = (r.slots||'').split(',').filter(Boolean);
+      return `<div class="modal-row">
+        <div>
+          <div class="modal-name">${p?.name || r.producer_name}${isPrem ? '<span class="prem-star">★ Premium</span>' : ''}</div>
+          <div class="modal-slots">${slots.map(s => `<span class="slot-tag${isPrem?' premium':''}">${SLOT_LABELS[s]||s}</span>`).join('')}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('day-modal').classList.add('open');
+}
+function closeDayModal(e) {
+  if (!e || e.target.id === 'day-modal' || e.target.classList.contains('modal-close'))
+    document.getElementById('day-modal').classList.remove('open');
+}
+
+// ── Producers Tab ─────────────────────────────────────────
+function switchTab(t) {
+  document.getElementById('tab-calendar').style.display = t === 'calendar' ? 'block' : 'none';
+  document.getElementById('tab-producers').style.display = t === 'producers' ? 'block' : 'none';
+  document.getElementById('tb-cal').classList.toggle('active', t === 'calendar');
+  document.getElementById('tb-prod').classList.toggle('active', t === 'producers');
+}
+
+function renderProducers() {
+  const sorted = [...allProducers].sort((a,b) => (b.premium?1:0)-(a.premium?1:0) || (a.name||'').localeCompare(b.name||''));
+  document.getElementById('producers-grid').innerHTML = sorted.map(p => `
+    <div class="prod-card${p.premium?' is-premium':''}">
+      <div>
+        <div class="pc-name">${p.name}${p.premium?'<span class="prem-star" style="color:var(--premium);font-size:0.72rem">★</span>':''}</div>
+        <div class="pc-pin">PIN: ${p.pin}</div>
+      </div>
+      <div class="pc-actions">
+        <button class="prem-btn${p.premium?' active':''}" onclick="togglePremium(${p.id}, ${!p.premium})">
+          ${p.premium ? '★ Premium' : '☆ Premium'}
+        </button>
+        <button class="del-btn" onclick="deleteProducer(${p.id}, '${(p.name||'').replace(/'/g,"\\'")}')">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function togglePremium(id, val) {
+  try {
+    await SB.patch('producers', `id=eq.${id}`, { premium: val });
+    await refreshData(); renderProducers(); renderCalendar();
+    showToast(val ? '★ Marked as Premium' : 'Premium removed', true);
+  } catch(e) { showToast('Update failed'); }
+}
+
+async function deleteProducer(id, name) {
+  if (!confirm(`Remove "${name}"? Their availability will also be deleted.`)) return;
+  try {
+    await SB.del('producer_availability', `producer_id=eq.${id}`);
+    await SB.del('producers', `id=eq.${id}`);
+    await refreshData(); renderProducers(); renderCalendar();
+    showToast(`${name} removed`);
+  } catch(e) { showToast('Delete failed'); }
+}
+
+function openAddModal() {
+  document.getElementById('new-name').value = '';
+  document.getElementById('new-pin').value = '';
+  document.getElementById('new-premium').checked = false;
+  document.getElementById('add-modal').classList.add('open');
+  setTimeout(() => document.getElementById('new-name').focus(), 50);
+}
+function closeAddModal(e) {
+  if (!e || e.target.id === 'add-modal') document.getElementById('add-modal').classList.remove('open');
+}
+
+async function addProducer() {
+  const name = document.getElementById('new-name').value.trim();
+  const pin = document.getElementById('new-pin').value.trim();
+  const premium = document.getElementById('new-premium').checked;
+  if (!name || !pin) { showToast('Name and PIN required'); return; }
+  const btn = document.getElementById('add-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  try {
+    await SB.post('producers', { name, pin, premium });
+    await refreshData(); renderProducers(); closeAddModal();
+    showToast(`${name} added`, true);
+  } catch(e) { showToast('Add failed'); }
+  btn.disabled = false; btn.textContent = 'Add Producer';
+}
+
+function showToast(msg, success = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast' + (success ? ' success' : '');
+  t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2200);
+}
+</script>
+</body>
+</html>
