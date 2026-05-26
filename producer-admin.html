@@ -130,15 +130,36 @@
     color: var(--muted); margin-bottom: 0.3rem; font-weight: 300;
   }
   .admin-day.today .admin-day-num { color: var(--accent); font-weight: 500; }
-  .producer-chips { display: flex; flex-direction: column; gap: 2px; }
+  .producer-chips { display: flex; flex-direction: column; gap: 3px; }
   .p-chip {
     font-family: 'DM Mono', monospace; font-size: 0.58rem;
     padding: 0.12rem 0.35rem; border-radius: 3px;
-    background: var(--accent-dim); color: var(--accent);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    display: flex; align-items: center; gap: 3px;
   }
+  .p-chip .p-name { overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
+  .p-chip .p-slots { display: flex; gap: 2px; flex-shrink: 0; }
+  .p-chip .s-dot {
+    width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+  }
+  /* Slot colors */
+  .s-allday    { background: #2d5a3d; }
+  .s-afternoon { background: #e07b00; }
+  .s-evening   { background: #7b3db5; }
+  .s-other     { background: #999; }
+  /* Chip background */
+  .p-chip { background: rgba(45,90,61,0.08); color: var(--text); }
   .p-chip.premium { background: var(--premium-dim); color: var(--premium); }
   .more-chip { font-family: 'DM Mono', monospace; font-size: 0.57rem; color: var(--muted); padding: 0 0.35rem; }
+
+  /* Legend */
+  .slot-legend {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted);
+    margin-bottom: 1rem; align-items: center;
+  }
+  .sl-item { display: flex; align-items: center; gap: 0.35rem; }
+  .sl-dot { width: 9px; height: 9px; border-radius: 50%; }
 
   /* Day modal */
   .modal-overlay {
@@ -283,6 +304,12 @@
           <button class="filter-btn" data-f="evening" onclick="setFilter('evening')">Evening</button>
           <button class="filter-btn" data-f="other" onclick="setFilter('other')">Other</button>
         </div>
+      </div>
+      <div class="slot-legend">
+        <div class="sl-item"><div class="sl-dot s-allday"></div> All Day</div>
+        <div class="sl-item"><div class="sl-dot s-afternoon"></div> Afternoon (12–18)</div>
+        <div class="sl-item"><div class="sl-dot s-evening"></div> Evening (18–22)</div>
+        <div class="sl-item"><div class="sl-dot s-other"></div> Other</div>
       </div>
       <div class="admin-cal-grid" id="admin-cal-grid"></div>
     </div>
@@ -460,7 +487,12 @@ function renderCalendar() {
     const MAX = 3;
     const chips = rows.slice(0, MAX).map(r => {
       const p = getProducer(r.producer_id);
-      return `<div class="p-chip${p?.premium?' premium':''}">${p?.name || r.producer_name}</div>`;
+      const slots = (r.slots||'').split(',').filter(Boolean);
+      const dots = slots.map(s => `<div class="s-dot s-${s}"></div>`).join('');
+      return `<div class="p-chip${p?.premium?' premium':''}">
+        <span class="p-name">${p?.name || r.producer_name}</span>
+        <span class="p-slots">${dots}</span>
+      </div>`;
     }).join('');
     const extra = rows.length > MAX ? `<div class="more-chip">+${rows.length - MAX} more</div>` : '';
 
